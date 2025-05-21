@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>b02-bt01</title>
+    <style>
+      table {
+        border: 0 solid black;
+        border-collapse: collapse;
+      }
+
+      th,
+      td {
+        text-align: left;
+        padding: 10px;
+      }
+
+      thead tr {
+        background-color: #f2f2f2;
+      }
+
+      tr {
+        border-bottom: 1px solid #ccc;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1 style="text-align: center">Huỳnh Lê Bảo</h1>
+    <!-- Đăng ký tham gia -->
+    <section>
+      <h2>Đăng Ký Tham Gia</h2>
+
+      <form action="">
+        <!-- Họ tên - Email - Điện thoại -->
+        <div>
+          <!-- Họ tên -->
+          <label for="username">Họ Tên:</label>
+          <input type="username" name="username" id="username" />
+
+          <!-- Email -->
+          <label for="email">Email:</label>
+          <input type="email" name="email" id="email" />
+
+          <!-- Số điện thoại -->
+          <label for="tel">Số Điện Thoại:</label>
+          <input type="tel" name="tel" id="tel" />
+        </div>
+
+        <br />
+
+        <!-- Giới tính -->
+        <div>
+          <label for="">Giới Tính:</label>
+
+          <!-- Nam -->
+          <input type="radio" name="gender" id="gender" value="male" />
+          <label for="gender">Nam</label>
+
+          <!-- Nữ -->
+          <input type="radio" name="gender" id="gender" value="famale" />
+          <label for="gender">Nữ</label>
+        </div>
+
+        <br />
+
+        <!-- Quốc gia -->
+        <div>
+          <label for="country">Quốc Gia</label>
+          <select name="country" id="country">
+            <option value="">Chọn Quốc Gia</option>
+            <option value="vn">Việt Nam</option>
+            <option value="lao">Lào</option>
+            <option value="cpc">Campuchia</option>
+          </select>
+        </div>
+
+        <br />
+
+        <!-- Bản tin -->
+        <input type="checkbox" id="checkbox" />
+        <label for="checkbox">Đăng ký nhận bản tin</label>
+
+        <br />
+        <br />
+
+        <!-- Gửi -->
+        <button type="submit">Gửi</button>
+      </form>
+    </section>
+
+    <!-- Danh sách đăng ký -->
+    <section>
+      <h2>Danh Sách đăng ký</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Họ tên</th>
+            <th>Email</th>
+            <th>Số Điện Thoại</th>
+            <th>Giới Tính</th>
+            <th>Quốc Gia</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr>
+            <td>Nguyễn văn A</td>
+            <td>a@example.com</td>
+            <td>0123456789</td>
+            <td>Nam</td>
+            <td>Việt Nam</td>
+          </tr>
+
+          <tr>
+            <td>Trần Thị B</td>
+            <td>b@example.com</td>
+            <td>0987654321</td>
+            <td>Nữ</td>
+            <td>Mỹ</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </body>
+</html>
