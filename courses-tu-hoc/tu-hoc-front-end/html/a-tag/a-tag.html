@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ví dụ về thẻ &lt;a&gt; trong HTML</title>
+    <style>
+        html {
+    scroll-behavior: smooth;
+  }
+        .back-to-top {
+          position: fixed;
+          bottom: 20px;
+          right: 20px;
+          background: #007BFF;
+          color: white;
+          padding: 10px 15px;
+          text-decoration: none;
+          border-radius: 5px;
+        }
+        .back-to-top:hover {
+          background: #0056b3;
+        }
+</style>
+</head>
+
+<body>
+    <a href="javascript:void(0)" onclick="scrollToBottom()">⬇️ Xuống cuối trang</a>
+    <h1>Ví dụ minh họa thẻ &lt;a&gt;</h1>
+
+    <!-- 1. Liên kết đến trang web bên ngoài -->
+    <p>
+        <a href="https://www.google.com" target="_blank" rel="noopener noreferrer" title="Truy cập Google">Truy cập Google</a>
+    </p>
+
+    <!-- 2. Liên kết đến một phần trong cùng trang -->
+    <p>
+        <a href="#section1">Đi đến phần 1</a> | 
+        <a href="#section2">Đi đến phần 2</a>
+    </p>
+
+    <!-- 3. Liên kết tải tệp -->
+    <p>
+        <a href="example.pdf" download>Tải tệp PDF</a>
+    </p>
+
+    <!-- 4. Liên kết gửi email -->
+    <p>
+        <a href="mailto:someone@example.com">Gửi email</a>
+    </p>
+
+    <!-- 5. Liên kết gọi điện thoại -->
+    <p>
+        <a href="tel:+84987654321">Gọi đến 0987 654 321</a>
+    </p>
+
+    <!-- 6. Liên kết đến mạng xã hội -->
+    <p>
+        <a href="https://www.facebook.com" target="_blank" rel="nofollow" title="Facebook">Facebook</a>
+    </p>
+
+    <!-- 7. Tạo điểm đánh dấu và liên kết đến nó -->
+    <h2 id="section1">Phần 1: Giới thiệu</h2>
+    <p>
+        Đây là nội dung của phần 1. Bạn có thể <a href="#">quay lại đầu trang</a>.
+    </p>
+
+    <p><a href="#section2">Xem nội dung phần 2</a></p>
+
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+
+    <h2 id="section2">Phần 2: Kết luận</h2>
+    <p>
+        Đây là nội dung của phần 2. Bạn có thể <a href="#">quay lại đầu trang</a>.
+    </p>
+
+    <p><a href="#section1">Xem nội dung phần 1</a></p>
+
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <a href="#top" class="back-to-top">↑ Lên đầu trang</a>
+</body>
+<script>
+  function scrollToBottom() {
+    window.scrollTo({
+      top: document.body.scrollHeight,
+      behavior: 'smooth'
+    });
+  }
+</script>
+</html>

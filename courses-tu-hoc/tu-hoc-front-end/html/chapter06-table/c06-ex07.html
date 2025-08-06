@@ -1,0 +1,115 @@
+<!-- Tiêu đề bảng cố định trên đỉnh trang khi cuộn trang -->
+<!-- 
+.sticky-header: Đây là bảng chứa dòng tiêu đề và được gắn position: fixed nên nó luôn nằm trên
+cùng màn hình khi bạn cuộn
+
+margin-top: 60px: Tạo khoảng trống bên dưới phần cố định để không che mất bảng gốc
+
+Bảng phía dưới: Chứa dữ liệu bình thường, nằm bên dưới phần tiêu đề cố định
+-->
+ <!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: sans-serif;
+    }
+
+    .sticky-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      background-color: white;
+      border-bottom: 2px solid #333;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-top: 60px; /* Để chừa chỗ cho phần header dính */
+    }
+
+    th, td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
+
+    .content {
+      height: 1000px; /* Giả lập nội dung dài để có thể cuộn */
+    }
+  </style>
+</head>
+<body>
+
+<!-- Phần tiêu đề bảng được làm cố định -->
+<div class="sticky-header">
+  <table>
+    <thead>
+      <tr>
+        <th>STT</th>
+        <th>Họ tên</th>
+        <th>Tuổi</th>
+      </tr>
+    </thead>
+  </table>
+</div>
+
+<!-- Phần nội dung bảng nằm bên dưới -->
+<table>
+  <tbody>
+    <!-- Thêm nhiều dòng để tạo trang dài -->
+    <tr><td>1</td><td>Nam</td><td>20</td></tr>
+    <tr><td>2</td><td>Lan</td><td>21</td></tr>
+    <tr><td>3</td><td>Huy</td><td>22</td></tr>
+    <tr><td>4</td><td>Thảo</td><td>19</td></tr>
+    <tr><td>5</td><td>Bình</td><td>23</td></tr>
+    <tr><td>6</td><td>Sơn</td><td>24</td></tr>
+    <tr><td>7</td><td>Linh</td><td>20</td></tr>
+    <tr><td>8</td><td>Phong</td><td>25</td></tr>
+    <tr><td>9</td><td>Minh</td><td>22</td></tr>
+    <tr><td>10</td><td>Vy</td><td>19</td></tr>
+    <tr><td>1</td><td>Nam</td><td>20</td></tr>
+    <tr><td>2</td><td>Lan</td><td>21</td></tr>
+    <tr><td>3</td><td>Huy</td><td>22</td></tr>
+    <tr><td>4</td><td>Thảo</td><td>19</td></tr>
+    <tr><td>5</td><td>Bình</td><td>23</td></tr>
+    <tr><td>6</td><td>Sơn</td><td>24</td></tr>
+    <tr><td>7</td><td>Linh</td><td>20</td></tr>
+    <tr><td>8</td><td>Phong</td><td>25</td></tr>
+    <tr><td>9</td><td>Minh</td><td>22</td></tr>
+    <tr><td>10</td><td>Vy</td><td>19</td></tr>
+    <!-- Thêm nhiều dòng nữa nếu muốn -->
+     <tr><td>1</td><td>Nam</td><td>20</td></tr>
+    <tr><td>2</td><td>Lan</td><td>21</td></tr>
+    <tr><td>3</td><td>Huy</td><td>22</td></tr>
+    <tr><td>4</td><td>Thảo</td><td>19</td></tr>
+    <tr><td>5</td><td>Bình</td><td>23</td></tr>
+    <tr><td>6</td><td>Sơn</td><td>24</td></tr>
+    <tr><td>7</td><td>Linh</td><td>20</td></tr>
+    <tr><td>8</td><td>Phong</td><td>25</td></tr>
+    <tr><td>9</td><td>Minh</td><td>22</td></tr>
+    <tr><td>10</td><td>Vy</td><td>19</td></tr>
+    <tr><td>1</td><td>Nam</td><td>20</td></tr>
+    <tr><td>2</td><td>Lan</td><td>21</td></tr>
+    <tr><td>3</td><td>Huy</td><td>22</td></tr>
+    <tr><td>4</td><td>Thảo</td><td>19</td></tr>
+    <tr><td>5</td><td>Bình</td><td>23</td></tr>
+    <tr><td>6</td><td>Sơn</td><td>24</td></tr>
+    <tr><td>7</td><td>Linh</td><td>20</td></tr>
+    <tr><td>8</td><td>Phong</td><td>25</td></tr>
+    <tr><td>9</td><td>Minh</td><td>22</td></tr>
+    <tr><td>10</td><td>Vy</td><td>19</td></tr>
+  </tbody>
+</table>
+
+</body>
+</html>

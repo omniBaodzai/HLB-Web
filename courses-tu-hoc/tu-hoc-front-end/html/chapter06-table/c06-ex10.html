@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>c06-ex10</title>
+</head>
+<body>
+
+    <!-- 
+    * Thẻ table *
+    - Dùng để tạo một bảng
+    - Nội dung của bảng là từng hàng
+
+    * Thẻ tr (table row) *
+    - Dùng để tạo một hàng
+
+    * Thẻ td (table data) *
+    - Dùng để tạo một ô trong một hàng
+    - Nằm trong cặp thẻ <tr>...td nằm trong đây...</tr>
+
+    * Một số trình duyệt tự vẽ đường viền bảng hoặc đường viền ô
+
+    * Thẻ th (table heading)
+    - Giống td, nhưng nó dùng để làm tiêu đề cho 1 cột hoặc 1 hàng
+    - Trình duyệt hiển thị nội dung của thẻ này in đậm và ở giữa ô
+
+    * Thuộc tính scope *
+    - Chỉ ra đó là tiêu đề cho cột (giá trị: col) hay cho hàng (giá trị: row)
+
+    * Thuộc tính colspan *
+    - Dùng để kéo nội dung của một ô trải dài qua nhiều cột từ trái sang phải
+    - Dùng cho 1 thẻ th hoặc 1 thẻ td, cho biết số cột ô đó nên trải qua
+
+    * Thuộc tính rowspan *
+    - Dùng để kéo nội dung của một ô trải dài qua nhiều hàng từ trên xuống dưới
+    - Dùng cho 1 thẻ th hoặc 1 thẻ td, cho biết số hàng ô đó nên trải qua
+
+    * Thẻ thead *
+    - Tiêu đề của bảng đặt bên trong thẻ thead
+
+    * Thẻ tbody *
+    - Nội dung của bảng thì đặt bên trong thẻ tbody
+
+    * Thẻ tfoot *
+    - Chân của bảng thì đặt bên trong thẻ tfoot
+
+    * Thuộc tính lỗi thời: width *
+    - Dùng cho thẻ mở <table>: độ rộng của bảng
+    - Dùng cho thẻ mở <th> và <td>: độ rộng của các ô riêng lẻ
+
+    * Thuộc tính lỗi thời: cellpadding *
+    - Khoảng cách giữa nội dung và viền của một ô trong bảng
+
+    * Thuộc tính lỗi thời: cellspacing *
+    - Khoảng cách giữa các ô trong một bảng
+
+
+    * border="1" *
+    +) Khi đặt border="1" thì bảng và các ô sẽ có viền
+    +) Nếu không ghi gì, mặc định border = 0 → bảng không có viền.
+
+    * width *
+    +) Nếu không ghi width, trình duyệt sẽ tự tính theo nội dung của các ô, tức là width = auto
+
+    * cellpadding *
+    +) Mặc định: cellpadding = 1px
+
+    * cellspacing *
+    +)Mặc định: cellspacing = 2px
+    -->
+
+    <table border="1" width="700" cellpadding="30" cellspacing="2">
+        <tr>
+            <th width=""></th>
+            <th>Withdrawn</th>
+            <th>Credit</th>
+            <th>Balance</th>
+        </tr>
+        <tr>
+            <th>January</th>
+            <td>250.00</td>
+            <td>660.50</td>
+            <td>410.50</td>
+        </tr>
+        <tr>
+            <th>February</th>
+            <td>135.55</td>
+            <td>895.20</td>
+            <td>1170.15</td>
+        </tr>
+    </table>
+    
+</body>
+</html>

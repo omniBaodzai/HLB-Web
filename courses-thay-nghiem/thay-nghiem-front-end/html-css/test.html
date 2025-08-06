@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shop Vợt Cầu Lông</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background-color: #f4f4f4;
+    }
+
+    /* Navbar Styles */
+    .navbar {
+      background-color: #1e40af;
+      color: white;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
+    }
+
+    .navbar .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 20px;
+    }
+
+    .navbar .logo {
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .navbar .nav-links {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .navbar .nav-links a {
+      color: white;
+      text-decoration: none;
+      font-size: 16px;
+      padding: 8px 12px;
+      transition: background-color 0.3s ease;
+    }
+
+    .navbar .nav-links a:hover {
+      background-color: #3b82f6;
+      border-radius: 5px;
+    }
+
+    /* Dropdown Menu */
+    .dropdown {
+      position: relative;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #1e40af;
+      min-width: 200px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      border-radius: 5px;
+      top: 100%;
+      left: 0;
+      z-index: 1;
+      padding: 10px 0;
+    }
+
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+
+    .dropdown-content a {
+      display: block;
+      padding: 10px 15px;
+      color: white;
+      text-decoration: none;
+      font-size: 14px;
+      transition: background-color 0.3s ease;
+    }
+
+    .dropdown-content a:hover {
+      background-color: #3b82f6;
+    }
+
+    /* Hero Section */
+    .hero {
+      margin-top: 70px;
+      background: linear-gradient(to right, #3b82f6, #7e22ce);
+      color: white;
+      text-align: center;
+      padding: 60px 20px;
+    }
+
+    .hero h2 {
+      font-size: 36px;
+      margin-bottom: 20px;
+    }
+
+    .hero p {
+      font-size: 18px;
+      margin-bottom: 30px;
+    }
+
+    .hero .cta-button {
+      display: inline-block;
+      background-color: #facc15;
+      color: #1e40af;
+      padding: 12px 24px;
+      text-decoration: none;
+      font-weight: bold;
+      border-radius: 25px;
+      transition: background-color 0.3s ease;
+    }
+
+    .hero .cta-button:hover {
+      background-color: #eab308;
+    }
+
+    /* Content Section */
+    .content {
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+    .content h3 {
+      font-size: 28px;
+      color: #1e40af;
+      margin-bottom: 20px;
+    }
+
+    .content p {
+      color: #4b5563;
+      font-size: 16px;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .navbar .nav-links {
+        flex-direction: column;
+        gap: 10px;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        right: 0;
+        background-color: #1e40af;
+        padding: 20px;
+        display: none;
+      }
+
+      .navbar .nav-links.active {
+        display: flex;
+      }
+
+      .navbar .menu-toggle {
+        display: block;
+        cursor: pointer;
+        font-size: 24px;
+      }
+
+      .dropdown-content {
+        position: static;
+        box-shadow: none;
+        background-color: #2d62d6;
+        padding-left: 20px;
+      }
+
+      .dropdown:hover .dropdown-content {
+        display: none;
+      }
+
+      .dropdown.active .dropdown-content {
+        display: block;
+      }
+    }
+
+    .menu-toggle {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="container">
+      <div class="logo">Badminton Shop</div>
+      <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+      <div class="nav-links">
+        <a href="#">TRANG CHỦ</a>
+        <div class="dropdown">
+          <a href="#" class="dropdown-toggle" onclick="toggleDropdown()">SẢN PHẨM</a>
+          <div class="dropdown-content">
+            <a href="#">VỢT CẦU LÔNG</a>
+            <a href="#">GIÀY CẦU LÔNG</a>
+            <a href="#">ÁO CẦU LÔNG</a>
+            <a href="#">QUẦN CẦU LÔNG</a>
+            <a href="#">TÚI VỢT CẦU LÔNG</a>
+            <a href="#">BALO CẦU LÔNG</a>
+            <a href="#">ỐNG CẦU LÔNG</a>
+            <a href="#">PHỤ KIỆN CẦU LÔNG</a>
+          </div>
+        </div>
+        <a href="#">GIẢM GIÁ</a>
+        <a href="#">TIN TỨC</a>
+        <a href="#">HƯỚNG DẪN</a>
+        <a href="#">GIỚI THIỆU</a>
+        <a href="#">LIÊN HỆ</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <h2>Chào Mừng Đến Với Shop Vợt Cầu Lông</h2>
+    <p>Khám phá bộ sưu tập vợt cầu lông chất lượng cao với giá cả hợp lý!</p>
+    <a href="#" class="cta-button">Mua Ngay</a>
+  </section>
+
+  <!-- Content Section -->
+  <section class="content">
+    <h3>Sản Phẩm Nổi Bật</h3>
+    <p>Nội dung sản phẩm sẽ được thêm vào đây...</p>
+  </section>
+
+  <script>
+    function toggleMenu() {
+      const navLinks = document.querySelector('.nav-links');
+      navLinks.classList.toggle('active');
+    }
+
+    function toggleDropdown() {
+      const dropdown = document.querySelector('.dropdown');
+      dropdown.classList.toggle('active');
+    }
+  </script>
+</body>
+</html>

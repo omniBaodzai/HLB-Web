@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ví dụ về thẻ nav</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+/* Reset mặc định */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+nav {
+  background-color: #333;
+}
+
+.nav-menu {
+  display: flex;
+  list-style: none;
+  justify-content: center;
+  padding: 15px 0;
+}
+
+.nav-menu li {
+  position: relative;
+  margin: 0 20px;
+}
+
+.nav-menu a {
+  color: white;
+  text-decoration: none;
+  padding: 10px;
+  display: block;
+  white-space: nowrap;
+}
+
+.nav-menu a:hover {
+  background-color: #444;
+}
+
+/* Ẩn menu con */
+.dropdown-content,
+.dropdown-submenu {
+  display: none;
+  position: absolute;
+  background-color: #444;
+  min-width: 180px;
+  z-index: 1;
+}
+
+.dropdown-content {
+  top: 100%;
+  left: 0;
+}
+
+.dropdown-submenu {
+  top: 0;
+  left: 100%; /* hiện bên phải */
+}
+
+/* Hover hiển thị menu cấp 1 */
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+/* Hover hiển thị menu cấp 2 */
+.dropdown-sub:hover .dropdown-submenu {
+  display: block;
+}
+
+/* Viền, màu hover */
+.dropdown-content li,
+.dropdown-submenu li {
+  border-bottom: 1px solid #555;
+}
+
+.dropdown-content a,
+.dropdown-submenu a {
+  padding: 10px;
+  color: #fff;
+}
+
+.dropdown-content a:hover,
+.dropdown-submenu a:hover {
+  background-color: #555;
+}
+
+  </style>
+</head>
+<body>
+
+  <nav>
+  <ul class="nav-menu">
+    <li><a href="#">Trang chủ</a></li>
+    
+    <li class="dropdown">
+      <a href="#">Dịch vụ ▾</a>
+      <ul class="dropdown-content">
+        
+        <li class="dropdown-sub">
+          <a href="#">Thiết kế Web ▸</a>
+          <ul class="dropdown-submenu">
+            <li><a href="#">Web bán hàng</a></li>
+            <li><a href="#">Web doanh nghiệp</a></li>
+          </ul>
+        </li>
+        
+        <li class="dropdown-sub">
+          <a href="#">SEO ▸</a>
+          <ul class="dropdown-submenu">
+            <li><a href="#">SEO Google</a></li>
+            <li><a href="#">SEO TikTok</a></li>
+          </ul>
+        </li>
+        
+      </ul>
+    </li>
+    
+    <li><a href="#">Giới thiệu</a></li>
+    <li><a href="#">Liên hệ</a></li>
+  </ul>
+</nav>
+
+
+</body>
+</html>

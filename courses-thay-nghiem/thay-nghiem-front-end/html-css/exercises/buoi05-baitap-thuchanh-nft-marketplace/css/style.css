@@ -1,0 +1,465 @@
+/* ================================================================================= */
+/* Bước 1: Reset lại CSS*/
+*,
+*::before,
+*::after
+{
+    /* thẻ p có margin mặc định là 16px */
+    margin: 0; 
+
+    /*
+    - Thẻ li có padding mặc định là 40px
+    - Reset lại thì li mất dấu chấm và thụt lề sát mép
+    */
+    padding: 0;
+
+    /* Chống nở box model */
+    box-sizing: border-box; 
+}
+/* ================================================================================= */
+/* Bước 2: Nhìn tổng thế bản thiết kế */
+/* 
+- Màu nền chủ đạo của trang web: đen và tím 
+- Áp dụng một vài kiểu dáng cho body để các element bên trong body kế thừa
+=> Có một vài thuộc tính thằng con sẽ kế thừa được từ thằng cha
+
+body {
+    background-color: #2B2B2B;
+}
+=> Nhưng mà chúng ta nên dùng root để dễ kiểm soát style, tìm các điểm chung
+như màu nền, kiểu chữ trên bản thiết kế,...
+*/
+/* ================================================================================= */
+/* Bước 3: Dùng root */
+:root {
+    /* Khai báo biến màu chủ đạo của trang web */
+    --gray-color: #2B2B2B;
+    --bg-color: var(--gray-color);
+    --gray-color-400: #3B3B3B;
+
+    /* Khai báo biến các thành phần của trang web có màu chủ đạo là: tím */
+    --primary-color: #A259FF;
+
+    /* Khai báo biến màu chữ */
+    --white-color: #fff;
+
+/* ================================================================================= */
+    /* Khai báo biến typography */
+    --font-weight-normal: 400;
+    --font-weight-medium: 500;
+    --font-weight-semi: 600;
+    --font-weight-bold: 700;
+   
+
+    /* Khai báo biến độ cao của chữ */
+    --line-height-normal: 1.4;
+
+    /* Khái báo phông chữ chủ đạo
+    - Gõ work-sans fonts.google.com
+    - Bấm get font
+    - Bấm get embed code
+    - Copy link:
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    */
+    --primary-font: "Work Sans", sans-serif;
+    --secondary-font: "Space mono", monospace;
+
+}
+/* ================================================================================= */
+/* Bước 4: Áp dụng biến cho các phần tử */
+body {
+    /* Phần từ nào trong body kế thừa được thuộc tính của body thì sẽ kế thừa */
+
+    /* Dùng biến background-color (backgournd: các thằng bên trong không kế thừa) */
+    background-color: var(--gray-color);
+/* ================================================================================= */
+    /* Dùng biến màu chữ
+    - Tất cả thằng con bên trong, nếu thằng nào kế thừa được màu chữ của body
+thì nó sẽ kế thừa
+=> nhưng thằng button thì không, do đó phải ép thằng button kế thừa
+    */
+    color: var(--white-color);
+/* ================================================================================= */
+    /* Dùng biến độ đậm nhạt của chữ */
+    font-weight: var(--font-weight-normal);
+/* ================================================================================= */
+    /* Dùng biến độ cao và kích thước chữ
+    - size: 22px;
+    - Độ cao chữ: line-height: 160% của 22
+    */
+    line-height: var(--line-height-normal);
+/* ================================================================================= */
+    /* Dùng biến phông chữ */
+    font-family: var(--primary-font);
+}
+/* ================================================================================= */
+ul,
+ol {
+    list-style-type: none;
+}
+/* ================================================================================= */
+button {
+    /* Thay con trỏ thành bàn tay khi di chuột vào button */
+    cursor: pointer;
+
+    /* Làm mất màu nền nút bấm */
+    background-color: transparent;
+
+    /* Mất viền */
+    border: none;
+
+    /* Ép chữ bên trong nút phải kế thừa màu chữ trắng của body */
+    color: inherit;
+
+    font: inherit;
+}
+/* ================================================================================= */
+a {
+    display: inline-block;
+    color: var(--white-color);
+    text-decoration: none;
+}
+/* ================================================================================= */
+/* /* input có đặc điểm:
+- Chưa click sẽ có đường viền => có thể loại bỏ nó
+- Click vào sẽ có cái đường viền nữa gọi là outline => có thể loại bỏ nó
+=> border khác với outline là nó có thể áp dụng style được
+- Màu chữ không kế thừa từ body được
+
+input {
+    border: none;
+    outline: none;
+
+    /* color: inherit Tất nhiên đồng màu trắng thì sẽ không thấy 
+    /* Click vô fima tìm thấy màu chữ trong input giống màu background
+    - Nhưng không thể áp dụng biến như này, không hợp lý
+    color: var(--bg-color);
+    => tự nhiên màu chữ là màu background => nghe là không hợp lý rồi
+    => đặt tên phải có ý nghĩa
+
+
+    - Đổi --bg-color thành --gray-color: #2B2B2B;
+    + sau đó thêm lại 1 cái là: --bg-color: var(--gray-color);
+    => sau đó color của input dùng biến: --gray-color là xong
+    
+    color: var(--gray-color);
+} */
+/* ================================================================================= */
+img {
+    /* Tự tính toán lại chiều cao Để cho nó vừa với w,h của phần tử cha là div */
+    /* Tỉ lệ vẫn giữa nguyên */
+    max-width: 100%;
+    max-height: 100%;
+
+    /* Cố gắng ép hình ảnh vừa với w,h của div mà vẫn đảm bảo tỷ lệ */
+    object-fit: cover;
+}
+
+/* Header */
+.header {
+    display: flex;
+    
+    /* Căn dọc theo cột */
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding: 20px 50px;
+}
+
+/* Sắp xếp các thành phần của thanh điều hàng theo chiều ngang */
+.header-nav {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Sắp xếp các item của ul bên phải them chiều ngang */
+.menu-list {
+    display: flex;
+    align-items: center;
+
+    /* Khoảng cácnh margin giữa các mục điều hướng là gap: 10px*/
+    gap: 10px;
+}
+
+/* Padding của header */
+/* Phần bên phải có:
+padding trên dưới 20, trái phải 50
+*/
+
+/* Khoảng cách padding của mỗi mục điều hướng (nav-item/menu-item
+- padding của các mục: trên dưới 12, trái phải 20
+*/
+.menu-link {
+    padding: 12px 20px;
+    font-weight: var(--font-weight-semi);
+
+    /* Quay lại reset thẻ a thành inline-block */
+
+    /* Thiết lập relative */
+    position: relative;
+}
+
+/* Khoảng cácnh margin giữa các mục điều hướng là gap: 10px*/
+
+/* Hover vào các mục điều hướng sẽ có đường gạch chân phía dưới */
+/* .menu-link:hover {
+    /* Khi di chuột vào sẽ hiện gạch chân *
+    text-decoration: underline;
+} */
+.menu-link::after {
+    /* Bản chất cái thằng after là một nội dung nằm sau nội dung thẻ mở a */
+    /* Nội dung trống, để tạo gạch chân */
+    content: "";
+    /* width: 100%; */
+    /* width: calc(100% - 40px); */
+    width: 0;
+    height: 2px;
+    background-color: var(--white-color);
+
+    /* Bây giờ để hiện gạch chân thì dùng position */
+    position: absolute;
+
+    /* Thiết lập width height để thanh ngang đi chuyển về đúng chỗ */
+    /* Nhưng kích thước của thanh ngang lúc này chưa = kt nội dung */
+    /* Kích thước của thanh ngang to bằng padding của từng mục điều hướng,
+    tức là nó to bằng thẻ a */
+    /* box-sizing của thẻ a lúc này không hoạt động, do có set width, height đâu
+    - box-sizing hoạt động chỉ khi set width height thôi
+    - giả tử tăng padding của thẻ a trong .menu-link thì padding vẫn nở ra bình thường
+
+    => nó nở ra như vậy thì phải tính toán width của đường kẻ sao cho to bằng
+    kích thước chữ thôi
+    */
+    /* left: 0; */
+    /* left: 20px; */
+    left: 50%;
+    transform: translate(-50%);
+    bottom: 0;
+
+    /* Quay lại thiết lập width đường kẻ để nó = kt chữ của mục điều hướng */
+
+    /* Thiết lập xong nó hơi lệch trái, nên fix lại left */
+    /* 
+    Cách 2:
+    - left: 50%
+    - transform: translate(-50%)
+    */
+
+    /* Chuyển đổi hiệu ứng qua lại */
+    transition: width 0.25s ease-out;
+}
+
+/* Oke, bây giờ tắt đường kẻ đi, di chuột vào nó mới hiện:
+- Trong .menu-link::after
++ width: 0
++ Sau đó  trong .menu-link:hover::after thiết lập width: calc(100% - 40px);
+=> đây gọi là quá trình chuyển đổi
+*/
+.menu-link:hover::after {
+    width: calc(100% - 40px);
+}
+
+/* Quá trình chuyển đổi diễn ra nhanh, thay đổi thời gian trong
+.menu-link::after đê */
+
+/* BUTTON */
+/* Oke  giờ đến button nha
+- Quan sát trang web xem có nhiều button không
+để thiết lập một vài style chung
+*/
+
+/* Đo padding trong button
+- Trên dưới 20
+- Trái phải 50
+*/
+.btn {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 17px 48px;
+    font-weight: var(--font-weight-semi);
+
+    /* font-family không được kế thừa, do button có của riêng nó rồi */
+    /* kế thừa chung mọi loại font, thiết lập ở button */
+    /* font: inherit; */
+
+    border-radius: 20px;
+
+    /* Một số button bên dưới có đường viền */
+    border: 2px solid transparent;
+
+    /* Quay lại sửa padding, do thêm border 2px khiến box model nở ra */
+    /* padding: 17px 50px; */
+
+    line-height: 22px;
+}
+
+.btn.btn-primary {
+    background-color: var(--primary-color);
+}
+
+.btn.btn-small {
+    padding: 17px 28px;
+}
+
+.btn-icon {
+    width: 20px;
+    height: 20px;
+
+}
+
+/* Khoảng cách giữa button và connect a wallet là 10px
+- Thêm gap 10px trong header-nav
+*/
+
+/* Check button
+- Down button về
+- Cài ext perfect pixel
+*/
+
+/* Tiếp theo đến container */
+.container {
+    max-width: 1050px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+/* Reset heading */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: var(--font-weight-semi);
+}
+
+.banner {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.section-heading .section-subtitle {
+    margin-top: 10px;
+}
+
+.section-title {
+    font-size: 38px;
+    line-height: 1.2;
+}
+
+.section-subtitle {
+    font-size: 22px;
+    line-height: 1.6;
+
+    /* Không thể margin-top: 10px */
+}
+
+/* Đi đến .section-heading .section-subtile thiết lập margin-top 10px */
+
+/* Section banner */
+.section-baner .section-title {
+    font-size: 67px;
+    line-height: 1.1;
+    text-transform: capitalize;
+}
+
+/* dflex giữa div banner-content và banner-media trong div banner
+- Do có cùng width 510px
+   */
+
+/* flex item */
+.banner-content,
+.banner-media {
+    /* Chia đều flex item thành 2 phần bằng nhau */
+    flex: 1;
+}
+
+/*  Tính gap 30px cho 2 cái content với media trong .banner*/
+
+/* Viết hoa từng chữ cái của section-title trong .section-baner .section-title */
+
+.section-baner .section-heading .section-subtitle {
+    margin-top: 20px;
+}
+
+/* Khoảng cách của div content và div media tới header và footer home là 80px */
+.section {
+    padding: 80px 0;
+}
+
+/* Khoảng cách của banner button */
+.banner-button {
+    margin-top: 30px;
+}
+
+/* Tiếp theo là phần thông tin nhỏ */
+.addtional-info-item {
+    display: flex; /* Đang xếp theo chiều ngang */
+
+    /* Dùng cái này nó sẽ theo chiều dọc: 240k+ nằm trên total sale */
+    flex-direction: column;
+
+    /* Bằng nhau */
+    flex: 1;
+}
+
+.addtional-info-item .value {
+    font-family: var(--secondary-font);
+    font-size: 28px;
+    font-weight: var(--font-weight-bold);
+}
+
+.addtional-info-item .label {
+    font-size: 24px;
+    line-height: 1.6;
+}
+
+.addtional-info-list {
+    display: flex;
+    margin-top: 30px;
+    gap: 30px;
+}
+
+.banner-media-info {
+    background-color: var(--gray-color-400);
+    padding: 20px 20px;
+}
+
+.banner-media {
+    border-radius: 20px;
+}
+
+.banner {
+    align-items: flex-start;
+}
+
+.banner-media {
+    overflow: hidden;
+}
+
+.nft-info-title {
+    font-size: 22px;
+}
+
+.nft-info .nft-creator {
+    margin-top: 10px;
+}
+
+.nft-creator {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.nft-avatar {
+    width: 24px;
+    height: 24px;
+}
+
+/* .banner-image img {
+    display: block;
+} */

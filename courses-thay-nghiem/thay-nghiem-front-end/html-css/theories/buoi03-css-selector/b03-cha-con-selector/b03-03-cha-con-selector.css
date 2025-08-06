@@ -1,0 +1,14 @@
+/* Đi từ class cha là parent và tìm class con là children */
+/* 0.2.0 */
+.parent .children {
+    color: blue; /* Được chọn, vì có độ ưu tiên lớn hơn */
+}
+
+/* 0.1.0 */
+.children {
+    color: red;
+}
+
+/* Trọng số */
+/* 0(id).0(class).0(element) */
+/* Từ selector phải tính được trọng số */

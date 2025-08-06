@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Ví dụ toàn diện về thẻ &lt;pre&gt;</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+    }
+
+    .pre-demo {
+      background-color: #f4f4f4;
+      border: 1px solid #ccc;
+      padding: 16px;
+      margin-top: 20px;
+      font-family: Consolas, monospace;
+      white-space: pre;         /* Giữ nguyên định dạng */
+      overflow: auto;           /* Cuộn ngang nếu quá dài */
+    }
+
+    .pre-wrap {
+      white-space: pre-wrap;    /* Giữ định dạng + tự xuống dòng */
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🧩 Thẻ &lt;pre&gt; trong HTML – Ví dụ toàn diện</h1>
+
+  <h2>1. Không dùng &lt;pre&gt;:</h2>
+  <p>
+    Đây là    một dòng      với nhiều khoảng trắng
+    nhưng khi dùng thẻ &lt;p&gt; thì tất cả sẽ bị rút gọn
+    xuống dòng cũng không hoạt động đúng
+  </p>
+
+  <h2>2. Dùng &lt;pre&gt; để giữ nguyên định dạng:</h2>
+  <pre class="pre-demo">
+Đây là    một dòng      với nhiều khoảng trắng
+Xuống dòng hoạt động như bạn gõ
+    Dòng này có thụt lề
+  </pre>
+
+  <h2>3. Ví dụ hiển thị mã lập trình:</h2>
+  <pre class="pre-demo">
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;Trang đầu tiên&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;h1&gt;Xin chào thế giới!&lt;/h1&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+  </pre>
+
+  <h2>4. Ví dụ cuộn ngang khi dòng quá dài:</h2>
+  <pre class="pre-demo">
+Dòng này cực kỳ cực kỳ cực kỳ cực kỳ cực kỳ cực kỳ cực kỳ cực kỳ cực kỳ cực kỳ dài để bạn thấy cuộn ngang hoạt động ra sao khi nội dung vượt khỏi chiều rộng trình duyệt.
+  </pre>
+
+  <h2>5. Tự động xuống dòng (pre-wrap):</h2>
+  <pre class="pre-demo pre-wrap">
+Dòng này cũng rất rất rất dài, nhưng với white-space: pre-wrap; thì sẽ tự động xuống dòng mà vẫn giữ nguyên khoảng trắng và định dạng bên trong.
+  </pre>
+
+</body>
+</html>

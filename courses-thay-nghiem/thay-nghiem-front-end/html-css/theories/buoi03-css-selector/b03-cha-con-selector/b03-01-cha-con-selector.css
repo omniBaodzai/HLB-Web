@@ -1,0 +1,4 @@
+/* Đi từ class cha là parent và tìm class con là children */
+.parent .children {
+    color: red; /* Giả sử bỏ thằng cha, thì không thể áp dụng kiểu dáng cho thằng con */
+}

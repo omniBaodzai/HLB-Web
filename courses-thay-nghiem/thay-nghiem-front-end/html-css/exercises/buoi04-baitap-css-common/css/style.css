@@ -1,0 +1,216 @@
+/* CSS Flex box */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #2B2B2B;
+}
+
+/* Vùng chứa */
+.container {
+    /* max-width: kích thước tối đa có thể đạt được là 1050px */
+    /* Ban đầu mày có thể là 100px, 200px,... nhưng tối đa là 1050px */
+    /* Khác với width ở chỗ: 
+    width: 1050px; => cố định 1050px luôn
+    => nếu máy tính là 1920px thì nó chứa đủ 1050px => ổn
+    => nhưng nếu màn hình < 1050px, thì không chứa được container 1050
+    => nên thiết lập max-width rồi thiết lập width: 100%luôn
+    */
+    max-width: 1050px;
+    width: 100%;
+
+    /* Căn giữa */
+    margin: 0 auto;
+}
+
+/* Style cho khung: Creator-item */
+.creator-item {
+    /* width: 240px; */
+
+    /* 25% của container
+    - creator-list chiếm 100% kt của container
+    => do ul với div đều là block nếu chiếm 100% kích thước
+    của pt cha chứa nó
+    => li chiếm 25% của 100%(tức 1050) thì nó sẽ được 262.5    */
+    width: calc((100% - 90px) / 4);
+}
+
+/* Style cho card */
+.creator-card {
+    border-radius: 20px;
+    background-color: #3B3B3B;
+
+    /* Căn giữa ảnh */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    /* Thêm dòng này để con bên trong định vị theo */
+    position: relative;
+}
+
+/* Style cho số thứ hạng */
+.creator-rank {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: #2B2B2B;
+    color: #858584;
+    font-weight: bold;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Bo tròn ảnh */
+.creator-image {
+    border-radius: 50%; /* Ảnh đã bo rồi, nhưng cái khung vẫn tràn ra */
+
+    /* Thêm overflow */
+    overflow: hidden; /* thêm width, height */
+    width: 120px;
+    height: 120px;
+}
+
+/* Thông tin card */
+.creator-info {
+    /* Những thằng con bên trong sẽ kế thừa */
+    text-align: center;
+    color: white;
+}
+
+/* Flex box */
+
+/* Sắp xếp 4 creator thành hàng ngang
+- Sử dụng display flex cho thằng cha
+=> gọi là flex container
+=> Vùng chứa các element bên trong
+=> Các item bên trong gọi là flex item
+*/
+
+/* Flex container */
+.creator-list {
+    /* Bỏ dấu chấm */
+    list-style: none;
+    
+    /* Mặc định được xếp ngang hàng nhau */
+    display: flex;
+
+    /* Thu nhỏ thì item tự xuống hàng */
+    flex-wrap: wrap;
+
+    align-items: center;
+
+    /* Tạo khe */
+    /* 
+    - Đầu tiên nó sẽ xảy ra lỗi:
+    + Do đã set creator-item là 25% = 262.5
+    + Rồi lại thêm gap = 30px, nên chắc chắc không
+    còn đủ đất
+    + Nên cái thẻ cuối sẽ xuống dòng
+    => Khắc phục đê
+    + Tính toán kính thước item cho chuẩn
+    + Để item + gap = 1050px
+    width: calc((100% - 90px) / 4);
+    */
+    gap: 30px;
+
+
+
+    /*
+    /* Cụ thể là hướng theo hàng /
+    flex-direction: row;
+
+    /* Căn giữa các item của container /
+    justify-content: center; /* Phải có display: flex thì mới dùng được tt này */
+    
+    /* Cái này sẽ ép các item sát viền container /
+    justify-content: space-between;
+
+    /* Còn cái này thì sẽ có khoảng trống giữa
+    item cuối cùng với viền container
+    - và khoảng đó = 1/2 khoảng cách ở giữa các item
+     *
+    justify-content: space-around;
+
+    /* Giống round: nhưng các khe bằng nhau *
+    justify-content: space-evenly;
+
+    /* Mặc định là stretch
+    - Tự động kéo các item cao bằng nhau
+    *
+    align-items: stretch;
+
+    /* Xết các item thẳng hàng nhau theo chiều dọc /
+    align-items: center;
+
+    /* Mấy thằng ngắn xếp đầu theo thằng cao nhất 
+    align-items: flex-start;
+
+    /* Mấy thằng ngắn xếp đí theo thằng cao nhất 
+    align-items: flex-end;
+    */
+}
+
+/* Bây giờ là chia đất cho 4 item
+- Mỗi item là: 240x238
+- Quay lại creator-item để thiết lập w,h
+*/
+
+/* 
+Bây giờ, tạo khoảng cách giữa các item
+- Trước hết, trong flex container hiện tại
+các item đang dồn về bên trái
+=> Bây giờ dùng justify-content:center trong flex
+container để căn giữa
+
+- Tiếp theo, tạo khoảng cách giữa các item bằng
+justify-content: space-between
+*/
+
+/*
+- Xét
+.creator-item {
+    width: 240px;
+}
+
+=> xét width cứng như vậy thì lúc nào nó cũng 240px
+- Khi mà nó nhảy item xuống hàng dưới thì rất xấu
+=> Tính toán kích thước các item theo %
+=> Tức container nhỏ đi thì item cũng nhỏ theo
+=> nhìn thấy 4 item => đoán thử 25%
+=> set lại
+*/
+
+/* 
+- Bây giờ tạo các khe giữa các item
+sau khi set width xong
+- Tạo khe ở creator-list
+=> Dùng gap (alt + di chuột để do gap)
+=> gap: 30
+*/
+
+/* Sau khi tính toán xong
+width: calc((100% - 90px) / 4);
+thì giả sử bỏ flex-wrap
+=> thì khi thẻm item nó sẽ không tự nhảy xuống dòng
+=> dùng width: 240px thì không thể co giãn linh hoạt như % được
+*/
+
+/* Một số trình duyệt cũ không dùng gap
+- Cách khác
++ width: 25%
++ khe là 30
+=> mỗi item có padding là 15px
++ triệt tiêu 2 bên mép:
+.creator-list {
+margin: 0 -15px;
+}
+
+*/

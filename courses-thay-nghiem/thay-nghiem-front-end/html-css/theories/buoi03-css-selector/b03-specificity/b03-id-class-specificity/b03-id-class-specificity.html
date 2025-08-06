@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>b03-id-class-specificity</title>
+    <link rel="stylesheet" href="./b03-id-class-specificity.css">
+</head>
+<body>
+    <!-- id > class > element -->
+    <section>
+        <h2>Specificity</h2>
+
+        <!-- Thẻ p có màu đỏ, vì id có độ ưu tiên cao nhất -->
+        <p id="text" class="text">Lorem ipsum dolor sit amet.</p>
+
+        <!-- Thẻ p dính màu navajowhite do thẻ này nằm trong một khối khác -->
+        <div>
+            <p>Lorem, ipsum dolor.</p>
+        </div>
+    </section>
+</body>
+</html>

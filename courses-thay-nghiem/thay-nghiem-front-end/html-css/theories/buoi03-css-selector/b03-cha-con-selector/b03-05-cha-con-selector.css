@@ -1,0 +1,17 @@
+/* Đi từ class cha là parent và tìm class con là children */
+/* 0.2.0 */
+.parent .children {
+    color: blue; 
+}
+
+/* 0.2.0 */
+.parent .children {
+    color: red; /* Màu đỏ sẽ được chọn */
+}
+
+#parent {
+    color: yellow; /* parent nó nằm trong thẻ div */
+}
+/* Trọng số */
+/* 0(id).0(class).0(element) */
+/* Từ selector phải tính được trọng số */

@@ -1,0 +1,11 @@
+.text.text-red {
+    color: red;
+}
+
+span.text {
+    color: rgb(12, 237, 8);
+}
+
+span#text {
+    color: rgb(55, 7, 188);
+}

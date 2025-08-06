@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>b03-em-sau-anh-nga-selector</title>
+    <link rel="stylesheet" href="./b03-em-sau-anh-nga-selector.css">
+</head>
+<body>
+    <!-- ~: em ruột hay em họ của anh là được, không cần liền kề -->
+    <section>
+        <div class="parent-3">
+            <p>Lorem ipsum dolor sit 1.</p> <!-- Lorem 1 không được chọn -->
+            <p>Lorem ipsum dolor sit 2.</p> <!-- Lorem 2 được chọn, vì là em của Lorem 1 -->
+            <p>Lorem ipsum dolor sit 3.</p> <!-- Lorem 3 được chọn, vì là em của Lorem 2 -->
+            <p>Lorem ipsum dolor sit 4.</p> <!-- Lorem 4 được chọn, vì là em của Lorem 3 -->
+            <p>Lorem ipsum dolor sit 5.</p> <!-- Lorem 5 được chọn, vì là em của Lorem 4 -->
+            <p>Lorem ipsum dolor sit 6.</p> <!-- Lorem 6 được chọn, vì là em của Lorem 5 -->
+        </div>
+
+        <div class="parent-4">
+            <p>Lorem ipsum dolor sit 1.</p> 
+            <p>Lorem ipsum dolor sit 2.</p> <!-- Được chọn-->
+
+            <div>Div 1</div>
+            <div>Div 1</div>
+
+            <p>Lorem ipsum dolor sit 3.</p> <!-- Được chọn-->
+
+            <div>
+                <p>Lorem ipsum dolor sit 4.</p>
+                <p>Lorem ipsum dolor sit 5.</p> <!-- Được chọn-->
+            </div>
+        </div>
+
+    </section>
+
+</body>
+</html>

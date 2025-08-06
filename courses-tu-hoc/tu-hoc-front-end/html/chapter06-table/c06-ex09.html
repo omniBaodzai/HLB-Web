@@ -1,0 +1,113 @@
+<!-- 
+Dạng bảng xoay ngang gọi là "transposed table" hoặc "bảng xoay", tức là:
+✔️ Dữ liệu nằm theo cột,
+✔️ Còn tiêu đề nằm theo hàng đầu tiên của cột đầu tiên. 
+Thay vì tiêu đề nằm ngang ở hàng đầu tiên (<thead>), tiêu đề nằm dọc ở cột đầu tiên, tức là mỗi dòng là một “thuộc tính”
+-->
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Bảng xoay ngang - Tiêu đề là cột đầu tiên</title>
+    <style>
+      .fixed-header-table {
+        border-collapse: collapse;
+        width: max-content;
+      }
+
+      .fixed-header-table th,
+      .fixed-header-table td {
+        border: 1px solid #ccc;
+        padding: 8px 12px;
+        white-space: nowrap;
+      }
+
+      .fixed-header-table th:first-child {
+        position: sticky;
+        left: 0;
+        background-color: #f9f9f9;
+        z-index: 1;
+      }
+
+      .table-wrapper {
+        max-height: 300px;
+        overflow: auto;
+        border: 1px solid #aaa;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Bảng sinh viên xoay ngang (Transpose Table)</h2>
+
+    <div class="table-wrapper">
+      <table class="fixed-header-table">
+        <tr>
+          <th>Thuộc tính</th>
+          <th>SV1</th>
+          <th>SV2</th>
+          <th>SV3</th>
+          <th>SV4</th>
+          <th>SV5</th>
+          <th>SV6</th>
+          <th>SV7</th>
+          <th>SV8</th>
+          <th>SV9</th>
+          <th>SV10</th>
+        </tr>
+        <tr>
+          <th>MSSV</th>
+          <td>001</td>
+          <td>002</td>
+          <td>003</td>
+          <td>004</td>
+          <td>005</td>
+          <td>006</td>
+          <td>007</td>
+          <td>008</td>
+          <td>009</td>
+          <td>010</td>
+        </tr>
+        <tr>
+          <th>Họ tên</th>
+          <td>A</td>
+          <td>B</td>
+          <td>C</td>
+          <td>D</td>
+          <td>E</td>
+          <td>F</td>
+          <td>G</td>
+          <td>H</td>
+          <td>I</td>
+          <td>J</td>
+        </tr>
+        <tr>
+          <th>Lớp</th>
+          <td>C1</td>
+          <td>C2</td>
+          <td>C3</td>
+          <td>C1</td>
+          <td>C2</td>
+          <td>C3</td>
+          <td>C1</td>
+          <td>C2</td>
+          <td>C3</td>
+          <td>C1</td>
+        </tr>
+        <tr>
+          <th>Tuổi</th>
+          <td>20</td>
+          <td>21</td>
+          <td>22</td>
+          <td>23</td>
+          <td>20</td>
+          <td>21</td>
+          <td>22</td>
+          <td>23</td>
+          <td>20</td>
+          <td>21</td>
+        </tr>
+        <!-- Thêm nhiều dòng nữa nếu muốn -->
+      </table>
+    </div>
+  </body>
+</html>

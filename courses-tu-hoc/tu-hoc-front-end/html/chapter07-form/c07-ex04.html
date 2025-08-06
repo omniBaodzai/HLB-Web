@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>c07-ex04</title>
+</head>
+<body>
+
+    <!-- 
+    * Thẻ input *
+    - Dùng để tạo ra nhiều loại điều khiển biểu mẫu khác nhau
+
+    * Thuộc tính: type *
+    - Giá trị của nó xác định loại đầu vào
+    - type="text": tạo ra một trường nhập liệu văn bản 1 dòng
+
+    * Thuộc tính: name *
+    - Người dùng nhập thông tin vào biểu mẫu -> máy chủ cần biết từng phần dữ liệu
+    được nhập vào điều khiển biểu mẫu nào
+    - Ví dụ, trong một biểu mẫu đăng nhập, máy chủ cần biết dữ liệu đã được nhập là
+    tên người dùng và mật khẩu
+    => Do đó, mỗi điều khiển của biểu mẫu yêu cầu một thuộc tính "name"
+    => Giá trị của thuộc tính này xác định điều khiển của biểu mẫu và được gửi cùng
+    với thông tin mà họ nhập vào máy chủ.
+
+    * Thuộc tính: maxlenght *
+    - Giới hạn số lượng ký tự mà người dùng nhập vào
+
+    * Giá trị của type="password" *
+    - Tạo ô nhập liệu nhập mật khẩu, các ký tự bị ẩn đi
+
+    * Giá trị của name="password" *
+    - Nói ra rằng, đây là tên của trường nhập mật khẩu, gửi đến máy chủ cùng với mật
+    khẩu mà người dùng nhập
+    - Tuy mật khẩu được ẩn, nhưng chưa đảm bảo an toàn 100%, nên máy chủ cần được
+    thiết lập để giao tiếp với trình duyệt của người dùng qua Giao thức SSL
+    (Secure Sockets Layer)
+
+    * Thẻ textarea *
+    - Tạo trường nhập liệu văn bản nhiều dòng
+
+    * Thuộc tính: cols và rows *
+    - Số cột và số hàng của trường nhập liệu, nếu có thêm hàng vượt quá giới hạn thì
+    sẽ xuất hiện thanh cuộn
+    -->
+
+    <form action="http://www.example.com/comments.php">
+        <p>What did you think of this gig?</p>
+        <textarea name="comments" cols="20" rows="4" id="">Enter your comments...</textarea>
+    </form>
+    
+</body>
+</html>

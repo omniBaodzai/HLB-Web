@@ -1,0 +1,15 @@
+ul li:first-child {
+    color: red;
+}
+
+ul li:last-child {
+    color: rgb(3, 231, 37);
+}
+
+ul li:nth-child(3) {
+    color: rgb(3, 212, 231);
+}
+
+span:hover {
+    color: blueviolet;
+}

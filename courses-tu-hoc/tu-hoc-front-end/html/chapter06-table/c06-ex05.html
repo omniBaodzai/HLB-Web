@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>c06-ex05</title>
+</head>
+<body>
+
+    <!-- 
+    * Thẻ table *
+    - Dùng để tạo một bảng
+    - Nội dung của bảng là từng hàng
+
+    * Thẻ tr (table row) *
+    - Dùng để tạo một hàng
+
+    * Thẻ td (table data) *
+    - Dùng để tạo một ô trong một hàng
+    - Nằm trong cặp thẻ <tr>...td nằm trong đây...</tr>
+
+    * Một số trình duyệt tự vẽ đường viền bảng hoặc đường viền ô
+
+    * Thẻ th (table heading)
+    - Giống td, nhưng nó dùng để làm tiêu đề cho 1 cột hoặc 1 hàng
+    - Trình duyệt hiển thị nội dung của thẻ này in đậm và ở giữa ô
+
+    * Thuộc tính scope *
+    - Chỉ ra đó là tiêu đề cho cột (giá trị: col) hay cho hàng (giá trị: row)
+
+    * Thuộc tính colspan *
+    - Dùng để kéo nội dung của một ô trải dài qua nhiều cột từ trái sang phải
+    - Dùng cho 1 thẻ th hoặc 1 thẻ td, cho biết số cột ô đó nên trải qua
+
+    * Thuộc tính rowspan *
+    - Dùng để kéo nội dung của một ô trải dài qua nhiều hàng từ trên xuống dưới
+    - Dùng cho 1 thẻ th hoặc 1 thẻ td, cho biết số hàng ô đó nên trải qua
+
+    * Thẻ thead *
+    - Tiêu đề của bảng đặt bên trong thẻ thead
+
+    * Thẻ tbody *
+    - Nội dung của bảng thì đặt bên trong thẻ tbody
+
+    * Thẻ tfoot *
+    - Chân của bảng thì đặt bên trong thẻ tfoot
+    -->
+
+    <table>
+        <!-- Tiêu đề -->
+        <thead>
+            <tr>
+                <th scope="col">Date</th>
+                <th scope="col">Income</th>
+                <th scope="col">Expenditure</th>
+            </tr>
+        </thead>
+
+        <!-- Nội dung -->
+        <tbody>
+            <!-- Hàng 1 -->
+            <tr>
+                <th scope="row">1st January</th>
+                <td>250</td>
+                <td>36</td>
+            </tr>
+
+            <!-- Hàng 2 -->
+            <tr>
+                <th scope="row">2nd January</th>
+                <td>285</td>
+                <td>48</td>
+            </tr>
+
+            <!-- Hàng 3 -->
+            <tr>
+                <th scope="row">31st January</th>
+                <td>129</td>
+                <td>64</td>
+            </tr>
+        </tbody>
+
+        <!-- Chân -->
+        <tfoot>
+            <td></td>
+            <td>694</td>
+            <td>148</td>
+        </tfoot>
+    </table>
+    
+</body>
+</html>

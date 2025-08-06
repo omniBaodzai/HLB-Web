@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Bảng sinh viên xoay ngang - Tiêu đề chia chéo</title>
+  <style>
+    .fixed-header-table {
+      border-collapse: collapse;
+      width: max-content;
+    }
+
+    .fixed-header-table th,
+    .fixed-header-table td {
+      border: 1px solid #ccc;
+      padding: 8px 12px;
+      white-space: nowrap;
+    }
+
+    .fixed-header-table th:first-child {
+      position: sticky;
+      left: 0;
+      background-color: #f9f9f9;
+      z-index: 1;
+    }
+
+    .table-wrapper {
+      max-height: 300px;
+      overflow: auto;
+      border: 1px solid #aaa;
+    }
+
+    /* Ô chia chéo đúng chuẩn */
+    .diagonal-header {
+      position: relative;
+      width: 120px;
+      height: 80px;
+      padding: 0;
+      background: white;
+    }
+
+    .diagonal-header::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border-right: 1px solid #ccc;
+      border-bottom: 1px solid #ccc;
+      z-index: 0;
+    }
+
+    .diagonal-header canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .text-top-left,
+    .text-bottom-right {
+      position: absolute;
+      font-size: 13px;
+      font-weight: bold;
+      z-index: 2;
+    }
+
+    .text-top-left {
+      top: 4px;
+      left: 6px;
+    }
+
+    .text-bottom-right {
+      bottom: 4px;
+      right: 6px;
+    }
+  </style>
+</head>
+<body>
+
+<h2>Bảng sinh viên xoay ngang (Transpose Table)</h2>
+
+<div class="table-wrapper">
+  <table class="fixed-header-table">
+    <tr>
+      <th class="diagonal-header">
+        <canvas width="120" height="80"></canvas>
+        <div class="text-top-left">Thuộc tính</div>
+        <div class="text-bottom-right">Sinh viên</div>
+      </th>
+      <th>SV1</th>
+      <th>SV2</th>
+      <th>SV3</th>
+      <th>SV4</th>
+      <th>SV5</th>
+      <th>SV6</th>
+      <th>SV7</th>
+      <th>SV8</th>
+      <th>SV9</th>
+      <th>SV10</th>
+    </tr>
+    <tr><th>MSSV</th><td>001</td><td>002</td><td>003</td><td>004</td><td>005</td><td>006</td><td>007</td><td>008</td><td>009</td><td>010</td></tr>
+    <tr><th>Họ tên</th><td>A</td><td>B</td><td>C</td><td>D</td><td>E</td><td>F</td><td>G</td><td>H</td><td>I</td><td>J</td></tr>
+    <tr><th>Lớp</th><td>C1</td><td>C2</td><td>C3</td><td>C1</td><td>C2</td><td>C3</td><td>C1</td><td>C2</td><td>C3</td><td>C1</td></tr>
+    <tr><th>Tuổi</th><td>20</td><td>21</td><td>22</td><td>23</td><td>20</td><td>21</td><td>22</td><td>23</td><td>20</td><td>21</td></tr>
+  </table>
+</div>
+
+<script>
+  // Vẽ đường chéo lên canvas
+  const canvas = document.querySelector('.diagonal-header canvas');
+  const ctx = canvas.getContext('2d');
+  ctx.beginPath();
+  ctx.moveTo(0, 0);
+  ctx.lineTo(canvas.width, canvas.height);
+  ctx.strokeStyle = '#999';
+  ctx.lineWidth = 1;
+  ctx.stroke();
+</script>
+
+</body>
+</html>

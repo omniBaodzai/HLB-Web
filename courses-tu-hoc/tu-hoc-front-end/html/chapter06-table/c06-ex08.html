@@ -1,0 +1,102 @@
+<!-- Hiển thị bảng đẹp hơn với thư viện DataTables — một thư viện JavaScript rất nổi tiếng giúp
+Tự động thêm:
++) Tìm kiếm (search box 🔍)
+
++) Sắp xếp theo cột (click vào tiêu đề để sort 🔼🔽)
+
++) Phân trang (hiện 10 dòng 1 trang, có nút Next, Previous)
+
++) Hiển thị số dòng (Show 10 / 25 / 50 entries) 
+-->
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Bảng sinh viên đẹp với DataTables</title>
+
+  <!-- 💡 Thêm thư viện CSS và JS của DataTables từ CDN -->
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 30px;
+    }
+    h2 {
+      text-align: center;
+    }
+    table {
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Danh sách sinh viên</h2>
+
+  <table id="bang-sinhvien" class="display">
+    <thead>
+      <tr>
+        <th>STT</th>
+        <th>Họ và tên</th>
+        <th>Lớp</th>
+        <th>Tuổi</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>1</td><td>Nguyễn Văn A</td><td>CTK42</td><td>20</td></tr>
+      <tr><td>2</td><td>Trần Thị B</td><td>CTK43</td><td>21</td></tr>
+      <tr><td>3</td><td>Phạm Văn C</td><td>CTK42</td><td>22</td></tr>
+      <tr><td>4</td><td>Võ Thị D</td><td>CTK41</td><td>19</td></tr>
+      <tr><td>5</td><td>Đỗ Văn E</td><td>CTK42</td><td>23</td></tr>
+      <tr><td>6</td><td>Lê Thị F</td><td>CTK43</td><td>21</td></tr>
+      <tr><td>7</td><td>Mai Văn G</td><td>CTK41</td><td>20</td></tr>
+      <tr><td>8</td><td>Trương Thị H</td><td>CTK42</td><td>19</td></tr>
+      <tr><td>9</td><td>Ngô Văn I</td><td>CTK43</td><td>22</td></tr>
+      <tr><td>10</td><td>Hồ Thị K</td><td>CTK42</td><td>21</td></tr>
+      <!-- Bạn có thể thêm bao nhiêu dòng tùy ý -->
+       <tr><td>1</td><td>Nguyễn Văn A</td><td>CTK42</td><td>20</td></tr>
+      <tr><td>2</td><td>Trần Thị B</td><td>CTK43</td><td>21</td></tr>
+      <tr><td>3</td><td>Phạm Văn C</td><td>CTK42</td><td>22</td></tr>
+      <tr><td>4</td><td>Võ Thị D</td><td>CTK41</td><td>19</td></tr>
+      <tr><td>5</td><td>Đỗ Văn E</td><td>CTK42</td><td>23</td></tr>
+      <tr><td>6</td><td>Lê Thị F</td><td>CTK43</td><td>21</td></tr>
+      <tr><td>7</td><td>Mai Văn G</td><td>CTK41</td><td>20</td></tr>
+      <tr><td>8</td><td>Trương Thị H</td><td>CTK42</td><td>19</td></tr>
+      <tr><td>9</td><td>Ngô Văn I</td><td>CTK43</td><td>22</td></tr>
+      <tr><td>10</td><td>Hồ Thị K</td><td>CTK42</td><td>21</td></tr>
+            <tr><td>1</td><td>Nguyễn Văn A</td><td>CTK42</td><td>20</td></tr>
+      <tr><td>2</td><td>Trần Thị B</td><td>CTK43</td><td>21</td></tr>
+      <tr><td>3</td><td>Phạm Văn C</td><td>CTK42</td><td>22</td></tr>
+      <tr><td>4</td><td>Võ Thị D</td><td>CTK41</td><td>19</td></tr>
+      <tr><td>5</td><td>Đỗ Văn E</td><td>CTK42</td><td>23</td></tr>
+      <tr><td>6</td><td>Lê Thị F</td><td>CTK43</td><td>21</td></tr>
+      <tr><td>7</td><td>Mai Văn G</td><td>CTK41</td><td>20</td></tr>
+      <tr><td>8</td><td>Trương Thị H</td><td>CTK42</td><td>19</td></tr>
+      <tr><td>9</td><td>Ngô Văn I</td><td>CTK43</td><td>22</td></tr>
+      <tr><td>10</td><td>Hồ Thị K</td><td>CTK42</td><td>21</td></tr>
+      <!-- Bạn có thể thêm bao nhiêu dòng tùy ý -->
+       <tr><td>1</td><td>Nguyễn Văn A</td><td>CTK42</td><td>20</td></tr>
+      <tr><td>2</td><td>Trần Thị B</td><td>CTK43</td><td>21</td></tr>
+      <tr><td>3</td><td>Phạm Văn C</td><td>CTK42</td><td>22</td></tr>
+      <tr><td>4</td><td>Võ Thị D</td><td>CTK41</td><td>19</td></tr>
+      <tr><td>5</td><td>Đỗ Văn E</td><td>CTK42</td><td>23</td></tr>
+      <tr><td>6</td><td>Lê Thị F</td><td>CTK43</td><td>21</td></tr>
+      <tr><td>7</td><td>Mai Văn G</td><td>CTK41</td><td>20</td></tr>
+      <tr><td>8</td><td>Trương Thị H</td><td>CTK42</td><td>19</td></tr>
+      <tr><td>9</td><td>Ngô Văn I</td><td>CTK43</td><td>22</td></tr>
+      <tr><td>10</td><td>Hồ Thị K</td><td>CTK42</td><td>21</td></tr>
+    </tbody>
+  </table>
+
+  <!-- Kích hoạt DataTables -->
+  <script>
+    $(document).ready(function() {
+      $('#bang-sinhvien').DataTable();
+    });
+  </script>
+
+</body>
+</html>

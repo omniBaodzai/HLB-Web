@@ -1,0 +1,15 @@
+/* id > class > element */
+/* Id */
+#text {
+    color: red; /* Chọn màu đỏ, vì id có độ ưu tiên cao nhất */
+}
+
+/* Class */
+.text {
+    color: navy;
+}
+
+/* Element */
+p {
+    color: navajowhite
+}

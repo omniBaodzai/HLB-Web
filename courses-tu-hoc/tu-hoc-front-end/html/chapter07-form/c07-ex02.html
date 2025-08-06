@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>c07-ex02</title>
+</head>
+<body>
+
+    <!-- 
+    * Thẻ input *
+    - Dùng để tạo ra nhiều loại điều khiển biểu mẫu khác nhau
+
+    * Thuộc tính: type *
+    - Giá trị của nó xác định loại đầu vào
+    - type="text": tạo ra một trường nhập liệu văn bản 1 dòng
+
+    * Thuộc tính: name *
+    - Người dùng nhập thông tin vào biểu mẫu -> máy chủ cần biết từng phần dữ liệu
+    được nhập vào điều khiển biểu mẫu nào
+    - Ví dụ, trong một biểu mẫu đăng nhập, máy chủ cần biết dữ liệu đã được nhập là
+    tên người dùng và mật khẩu
+    => Do đó, mỗi điều khiển của biểu mẫu yêu cầu một thuộc tính "name"
+    => Giá trị của thuộc tính này xác định điều khiển của biểu mẫu và được gửi cùng
+    với thông tin mà họ nhập vào máy chủ.
+
+    * Thuộc tính: maxlenght *
+    - Giới hạn số lượng ký tự mà người dùng nhập vào
+    -->
+
+    <form action="http://www.example.com/login.php">
+        <p>Username:
+            <input type="text" name="username" size="5" maxlength="10">
+        </p>
+    </form>
+    
+</body>
+</html>

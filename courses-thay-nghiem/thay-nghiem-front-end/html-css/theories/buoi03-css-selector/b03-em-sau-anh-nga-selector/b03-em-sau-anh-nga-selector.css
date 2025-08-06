@@ -1,0 +1,7 @@
+.parent-3 p ~ p {
+    color: red; /* ~: em ruột hay em họ của anh là được, không cần liền kề */
+}
+
+.parent-4 p ~ p {
+    color: blue;
+}

@@ -1,0 +1,104 @@
+/* Định dạng cơ bản */
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+}
+
+/* Menu chính */
+.main-menu {
+    background-color: #f05a22; /* Màu cam chính xác */
+    padding: 10px 0;
+}
+
+.main-menu ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+}
+
+.main-menu li {
+    position: relative;
+    margin: 0 20px;
+}
+
+.main-menu a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 14px;
+    padding: 10px 15px;
+    display: block;
+    text-transform: uppercase;
+}
+
+/* Dropdown */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: -150px; /* Căn chỉnh để bảng cân đối dưới "SẢN PHẨM" */
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    width: 900px; /* Chiều rộng chính xác hơn */
+    border: 1px solid #ddd;
+}
+
+/* Hiển thị dropdown khi hover */
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Bảng trong dropdown */
+.dropdown-content table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.dropdown-content th {
+    background-color: #f05a22; /* Màu cam chính xác */
+    color: white;
+    padding: 12px 15px;
+    text-align: left;
+    font-weight: bold;
+    font-size: 14px;
+    text-transform: uppercase;
+}
+
+.dropdown-content td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #e5e5e5;
+    color: #333;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+/* Đảm bảo các cột có chiều rộng đều */
+.dropdown-content th,
+.dropdown-content td {
+    width: 20%; /* 5 cột, mỗi cột 20% */
+}
+
+/* Định dạng "Xem thêm" */
+.dropdown-content td a {
+    color: #f05a22;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.dropdown-content td a:hover {
+    text-decoration: underline;
+}
+
+/* Định dạng hàng cuối cùng (Xem thêm) */
+.dropdown-content tr:last-child td {
+    font-weight: bold;
+    padding-top: 15px;
+}
+
+/* Định dạng các ô trống */
+.dropdown-content td:empty {
+    border-bottom: none;
+}
