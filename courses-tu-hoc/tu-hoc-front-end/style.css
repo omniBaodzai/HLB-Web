@@ -1,0 +1,60 @@
+/* Reset margin và padding của thẻ ul và li */
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Thiết lập kiểu cho thanh menu */
+.menu {
+  background-color: #333;
+  overflow: hidden;
+}
+
+/* Thiết lập kiểu cho các mục menu */
+.menu li {
+  float: left;
+}
+
+/* Thiết lập kiểu cho các liên kết trong menu */
+.menu li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+/* Màu nền khi hover vào các mục menu */
+.menu li a:hover {
+  background-color: #111;
+}
+
+/* Định dạng cho menu thả xuống */
+.dropdown {
+  position: relative;
+}
+
+/* Menu thả xuống bị ẩn đi khi chưa hover */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #333;
+  min-width: 160px;
+  z-index: 1;
+}
+
+/* Mỗi mục trong menu con */
+.dropdown-content li {
+  float: none;
+}
+
+/* Màu nền khi hover vào các mục trong dropdown */
+.dropdown-content li a:hover {
+  background-color: #111;
+}
+
+/* Hiển thị menu con khi hover vào mục chứa dropdown */
+.dropdown:hover .dropdown-content {
+  display: block;
+}

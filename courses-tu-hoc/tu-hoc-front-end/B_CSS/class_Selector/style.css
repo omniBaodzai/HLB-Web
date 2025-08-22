@@ -1,0 +1,25 @@
+/* Áp dụng style cho tiêu đề */
+
+.title {
+  color: blue; /* Màu chữ xanh dương */
+  text-align: center; /* Canh giữa */
+  font-size: 50px; /* Kích thước chữ 30px */
+  }
+ 
+  /* Áp dụng style cho đoạn văn có class highlight */
+.highlight {
+  color: red; /* Màu chữ đỏ */
+  font-size: 10px; /* Kích thước chữ 20px */
+  font-size: 30px;
+}
+
+.highlight {
+  color: yellow; /* Màu chữ đỏ */
+  font-size: 10px; /* Kích thước chữ 20px */
+  font-size: 50px;
+}
+.float-right {
+  float: right;
+}
+
+  

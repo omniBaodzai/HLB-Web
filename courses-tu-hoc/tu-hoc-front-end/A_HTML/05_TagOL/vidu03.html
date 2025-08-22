@@ -1,0 +1,64 @@
+<!-- Danh sách lồng nhau với CSS -->
+<!DOCTYPE html>
+<html lang="vi">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Danh sách lồng nhau với CSS</title>
+        <style>
+            /* Tùy chỉnh danh sách cha */
+            ol {
+            counter-reset: list-counter; /* Đặt bộ đếm cho danh sách */
+            padding-left: 20px;
+            margin: 10px 0;
+            }
+            ol > li {
+            counter-increment: list-counter; /* Tăng bộ đếm */
+            margin-bottom: 10px;
+            }
+            ol > li::before {
+            content: counter(list-counter) ". "; /* Hiển thị số thứ tự */
+            font-weight: bold;
+            color: #007BFF; /* Màu xanh lam */
+            }
+
+            /* Tùy chỉnh danh sách con */
+            ol ol {
+            list-style-type: lower-alpha; /* Kiểu danh sách con là chữ cái thường */
+            margin-left: 20px;
+            }
+            ol ol > li {
+            color: #ff5722; /* Màu cam cho danh sách con */
+            }
+
+            /* Hover: Hiệu ứng khi rê chuột */
+            li:hover {
+            background-color: #f0f8ff; /* Nền xanh nhạt khi rê chuột */
+            transition: background-color 0.3s ease;
+            }
+        </style>
+    </head>
+
+    <body>
+        <h1>Hướng dẫn học lập trình</h1>
+        <ol>
+            <li>Học ngôn ngữ cơ bản
+            <ol>
+                <li>HTML</li>
+                <li>CSS</li>
+                <li>JavaScript</li>
+            </ol>
+            </li>
+            <li>Thực hành qua dự án nhỏ
+            <ol>
+                <li>Tạo trang web cá nhân</li>
+                <li>Thêm hiệu ứng bằng CSS</li>
+                <li>Tích hợp chức năng với JavaScript</li>
+            </ol>
+            </li>
+            <li>Nâng cao kỹ năng qua các dự án thực tế</li>
+        </ol>
+    </body>
+
+</html>
