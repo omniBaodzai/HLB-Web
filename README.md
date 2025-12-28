@@ -1,5 +1,14 @@
-
 # **REVIEW-SERVICE**
+## Mục lục
+
+- [Tổng quan vai trò](#tổng-quan-vai-trò)
+- [Chức năng chi tiết theo vai trò](#chức-năng-chi-tiết-theo-vai-trò)
+  - [Reviewer (Người phản biện)](#reviewer-người-phản-biện)
+  - [Chair (Chủ tịch hội nghị)](#chair-chủ-tịch-hội-nghị)
+- [Author (Tác giả) – Chỉ là consumer](#author-tác-giả--chỉ-là-consumer)
+- [Kiểm tra Review Service đang chạy](#kiểm-tra-review-service-đang-chạy)
+- [Test API nghiệp vụ Reviewer](#test-api-nghiệp-vụ-reviewer)
+- [Test API nghiệp vụ Chair](#test-api-nghiệp-vụ-chair)
 ## **1. Tổng quan vai trò trong Review Service**
 **Review Service** chịu trách nhiệm quản lý toàn bộ quá trình phản biện bài báo khoa học.\
 Các vai trò chính liên quan gồm:
