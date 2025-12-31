@@ -1,1017 +1,611 @@
-# **REVIEW-SERVICE**
-## Mục lục
 
-- [Tổng quan vai trò](#tổng-quan-vai-trò)
-- [Chức năng chi tiết theo vai trò](#chức-năng-chi-tiết-theo-vai-trò)
-  - [Reviewer (Người phản biện)](#reviewer-người-phản-biện)
-  - [Chair (Chủ tịch hội nghị)](#chair-chủ-tịch-hội-nghị)
-- [Author (Tác giả) – Chỉ là consumer](#author-tác-giả--chỉ-là-consumer)
-- [Kiểm tra Review Service đang chạy](#kiểm-tra-review-service-đang-chạy)
-- [Test API nghiệp vụ Reviewer](#test-api-nghiệp-vụ-reviewer)
-- [Test API nghiệp vụ Chair](#test-api-nghiệp-vụ-chair)
-## **1. Tổng quan vai trò trong Review Service**
-**Review Service** chịu trách nhiệm quản lý toàn bộ quá trình phản biện bài báo khoa học.\
-Các vai trò chính liên quan gồm:
+# **CÁC CHỨC NĂNG CỦA REVIEW-SERVICE**
+# **HƯỚNG DẪN TẠO TẠI KHOẢN CHO REVIEWER VÀ CHAIR**
+## **1. Kết nối giao diện đồ họa cơ sở dữ liệu (tùy chọn)**
+\- Nếu dùng phần mềm Dbeaver Community thì làm các bước sau:
 
-- **Reviewer** (Người phản biện)
-- **Chair** (Chủ tịch hội nghị)
-## **2. Chức năng chi tiết theo từng vai trò**
-### **2.1. Reviewer (Người phản biện/người đánh giá bài báo)**
-#### ***a. Nhận bài báo được phân công***
-- Mỗi bài báo có thể được phân công cho **nhiều reviewer** (A, B, C…)
-- Reviewer **chỉ xem được** các bài báo mà mình được phân công
-- Danh tính tác giả **không được tiết lộ**.
-#### ***b. Đọc bài báo***
-- Reviewer có thể **xem hoặc tải về** bài báo
-- **Không xem được đánh giá** của reviewer khác cho đến khi giai đoạn thảo luận được mở
-#### ***c. Đánh giá bài báo (Review Submission)***
-Reviewer gửi **một bản đánh giá** cho mỗi bài báo, bao gồm
+\+ Chọn Database -> New Databases connection -> PostgreSQL
 
-**- Điểm số theo tiêu chí (Scoring Criteria)**
+\+ Điền thông tin kết nối đến db\_identiy:
 
-Ví dụ:
+- Host: localhost
+- Port: 5435
+- Database: db\_identity
+- User name: admin
+- Password: admin123
+- Click "Test Connection" → nếu ok click "Finish"
 
-• Tính độc đáo
+\+ Điền thông tin kết nối đến db\_review:
 
-• Chất lượng kỹ thuật
+- Host: localhost
+- Port: 5435
+- Database: db\_review
+- User name: admin
+- Password: admin123
+- Click "Test Connection" → nếu ok click "Finish".
+## **2. Reset dữ liệu (nếu muốn chạy lại service một cách sạch sẽ)**
+docker-compose down -v --remove-orphans
+## **3. Kiểm tra (bỏ qua cũng được)**
+sleep 2; docker exec -i uth-database psql -U admin -d db\_identity -c "SELECT count(\*) FROM users;"
+## **4. Chạy service** 
+\# from workspace root (d:\uth-confms)
 
-• Tính rõ ràng
+docker-compose up --build -d
 
-• Tính phù hợp
+\# check status
 
-• Điểm tổng thể
+docker-compose ps
+## **5. Truy cập Swagger UI Identity service**
+\- Identity: [http://localhost:3001/api/docs](vscode-file://vscode-app/c:/Program%20Files/Microsoft%20VS%20Code/resources/app/out/vs/code/electron-browser/workbench/workbench.html)
+## **6. Tạo tại khoản admin**
+\- POST http://localhost:3001/api/auth/register
 
-Các tiêu chí này **có thể cấu hình** theo từng hội nghị.
-
-**- Nhận xét cho tác giả (Public / Author-visible)**
-
-- Nội dung góp ý, nhận xét dành cho tác giả
-- **Ẩn danh reviewer**
-- Tác giả chỉ thấy nội dung nhận xét, **không biết người phản biện là a**
-
-**- Nhận xét nội bộ cho Chair**
-
-- Nhận xét mang tính nội bộ
-- Không hiển thị cho tác giả
-#### ***e. Thảo luận nội bộ (Reviewer Discussion)***
-- Các reviewer của **cùng một bài báo** có thể
-  - Trao đổi ý kiến
-  - Phản biện lẫn nhau
-  - Làm rõ quan điểm
-
-Đặc điểm:
-
-- Chỉ **reviewer và chair** được xem
-- **Không hiển thị cho tác giả**
-#### ***f. Chỉnh sửa đánh giá (nếu còn deadline)***
-- Reviewer được phép chỉnh sửa điểm số và nhận xét trước hạn chót
-- Hệ thống lưu lại lịch sử chỉnh sửa (audit trail)
-### **2.2. Chair (Chủ tịch hội nghị)**
-Chair là **người đưa ra quyết định cuối cùng** cho mỗi bài báo.
-#### ***a. Xem tổng hợp phản biện***
-- Xem:
-  - Tất cả đánh giá (review) của các bài báo do từng reviewer đánh giá
-  - Xem điểm trung bình và sự khác biệt giữa các đánh giá
-  - Chênh lệch quan điểm
-- Xem nhận xét nội bộ
-#### ***b. Tham gia thảo luận nội bộ***
-- Trao đổi với reviewer 
-- Không lộ danh tính tác giả
-#### ***c. Ra quyết định cho mỗi bài***
-Quyết định gồm:
-
-- Accept
-- Reject
-
-Hệ thống sẽ lưu lại quyết định này.
-#### ***d. Gửi thông báo kết quả cho tác giả***
-**- Bulk email**
-
-- Gửi email hàng loạt cho nhiều bài báo
-- Gửi cùng lúc đến tất cả tác giả
-- Thông báo kết quả cùng lúc đến tất cả tác giả
-
-**- Anonymized feedback**
-
-- Nội dung gửi bao gồm:
-- Kết quả bài báo do các reviewer và chair đánh giá
-  - Nhận xét dành cho tác giả
-  - Không hiển thị tên reviewer
-  - Có thể gộp nhiều review
-
-\- Mục đích:
-
-- Giữ bí mật reviewer
-- Đảm bảo tính khách quan
-## **Lưu ý về Author (Tác giả)**
-Author **KHÔNG thuộc review-service**, nhưng là consumer của kết quả.
-
-**Author chỉ có thể:**
-
-- Xem:
-  - Quyết định (Accept/Reject)
-  - Nhận xét đã ẩn danh
-  - Được xem điểm
-- Không:
-  - Xem thảo luận nội bộ
-  - Biết reviewer là ai
-# **KIỂM TRA XEM REVIEW-SERVICE CÓ ĐANG CHẠY KHÔNG**
-## **1. Chạy review-service**
-docker-compose up --build
-## **2. API Reviewer health**
-\- Dùng để kiểm tra xem review-service hoạt động không.
-
-\- Mở postman:
-
-\+ Chọn GET
-
-\+ Nhập <http://localhost:3004/api/health>
-
-\+ Body: Không có
-
-\+ Header: Không có
-
-\+ Nhấn send và xem kết quả:
+\- Body 
 
 {
 
-`    `"status": "Review service is up",
+`  `"email": "admin@example.com",
 
-`    `"message": "Review Service is running",
+`  `"password": "123456",
 
-`    `"timestamp": "2025-12-27T13:53:27.971Z"
-
-}
-# **TEST CÁC API NGHIỆP VỤ CỦA REVIEWER (NGƯỜI ĐÁNH GIÁ BÀI BÁO) TRONG REVIEW-SERVICE BẰNG POSTMAN**
-## **1. API Reviewer register**
-\- Mở postman:
-
-\+ Chọn: POST
-
-\+ Body: Không có
-
-\+ Header: Không có
-
-\+ Nhập <http://localhost:3001/api/auth/register>
-
-\+ Body:
-
-{ 
-
-`    `"email": "reviewer@test.com", 
-
-`    `"password": "password123", 
-
-`    `"fullName": "Reviewer Test", 
-
-`    `"role": "reviewer" 
+`  `"fullName": "Admin User"
 
 }
+## **7. Gửi mã kích hoạt tài khoản tới email**
+\- Copy câu lệnh này và chạy trong terminal vs code, nơi chưa thư mục gốc (Ví dụ: d:\uth-confms)
 
-\+ Nhấn send và xem kết quả:
+Invoke-RestMethod -Method Get -Uri "http://localhost:3001/api/auth/get-verification-token?email=admin@example.com"
+
+\- Kết quả mong đợi:
+
+{ "message": "Đã gửi mã kích hoạt tài khoản tới email (tồn tại)" }
+## **8. Lấy mã xác minh từ cơ sở dữ liệu**
+\- Copy câu lệnh này và chạy trong terminal vs code, nơi chưa thư mục gốc (Ví dụ: d:\uth-confms)
+
+docker exec -i uth-database psql -U admin -d db\_identity -t -c "SELECT token FROM email\_verification\_tokens WHERE user\_id=(SELECT id FROM users WHERE email='<admin@example.com>') ORDER BY created\_at DESC LIMIT 1;"
+
+\- Kết quả trả về sẽ là một mã số dạng số, ví dụ: 269759
+
+
+## **9. Xác minh mã vừa trả về ở bước số 8**
+\- Copy câu lệnh này và chạy trong terminal vs code, nơi chưa thư mục gốc (Ví dụ: d:\uth-confms)
+
+\# Copy mã vừa trả về và dán vô token:
+
+Invoke-RestMethod -Method Post -Uri 'http://localhost:3001/api/auth/verify-email' -Body (ConvertTo-Json @{ token='269759' }) -ContentType 'application/json'
+
+\- Kết quả mong đợi:
+
+{ "message": "Xác minh email thành công" }
+## **10. Đăng nhập tài khoản vừa xác minh thành công**
+\- POST http://localhost:3001/api/auth/login
+
+\- Body:
 
 {
 
-`    `"user": {
+`  `"email": "admin@example.com",
 
-`        `"id": "15fb8f22-a7c4-4922-9bfc-0b88e0ee2d08",
-
-`        `"email": "reviewer@test.com",
-
-`        `"fullName": "Reviewer Test",
-
-`        `"role": "reviewer",
-
-`        `"isActive": true,
-
-`        `"createdAt": "2025-12-28T07:04:51.433Z",
-
-`        `"updatedAt": "2025-12-28T07:04:51.433Z"
-
-`    `},
-
-`    `"accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxNWZiOGYyMi1hN2M0LTQ5MjItOWJmYy0wYjg4ZTBlZTJkMDgiLCJlbWFpbCI6InJldmlld2VyQHRlc3QuY29tIiwicm9sZSI6InJldmlld2VyIiwiaWF0IjoxNzY2OTA1NDkxLCJleHAiOjE3NjY5MDYzOTF9.n\_5dpe4lTTJQSG-s905YkeNRVRPbFpOfkRJ5-iAAKJA",
-
-`    `"refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxNWZiOGYyMi1hN2M0LTQ5MjItOWJmYy0wYjg4ZTBlZTJkMDgiLCJlbWFpbCI6InJldmlld2VyQHRlc3QuY29tIiwiaWF0IjoxNzY2OTA1NDkxLCJleHAiOjE3Njc1MTAyOTF9.wVG9p4YLnYsKp78edSjyAITWKzWqpqj2fvoghP5zCsA",
-
-`    `"expiresIn": "15m",
-
-`    `"refreshExpiresIn": "7d"
-
-}
-## **2. API Reveiwer login**
-\- Mở postman:
-
-\+ Chọn: POST
-
-\+ Nhập <http://localhost:3001/api/auth/login>
-
-\+ Body:
-
-{ 
-
-`    `"email": "reviewer@test.com", 
-
-`    `"password": "password123" 
+`  `"password": "123456"
 
 }
 
-\+ Header: Không có
+\- Đăng nhập thành công thì copy accessToken và paste vào Authorize
+## **11. Tạo REVIEWER và CHAIR (do Quản trị viên thực hiện)**
+\- POST http://localhost:3001/api/users/create
 
-\+ Nhấn send và xem kết quả:
+\# Tạo reviewer
+
+\- Body:
 
 {
 
-`    `"user": {
-
-`        `"id": "15fb8f22-a7c4-4922-9bfc-0b88e0ee2d08",
-
-`        `"email": "reviewer@test.com",
-
-`        `"fullName": "Reviewer Test",
-
-`        `"role": "reviewer",
-
-`        `"isActive": true,
-
-`        `"createdAt": "2025-12-28T07:04:51.433Z",
-
-`        `"updatedAt": "2025-12-28T07:04:51.433Z"
-
-`    `},
-
-`    `"accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxNWZiOGYyMi1hN2M0LTQ5MjItOWJmYy0wYjg4ZTBlZTJkMDgiLCJlbWFpbCI6InJldmlld2VyQHRlc3QuY29tIiwicm9sZSI6InJldmlld2VyIiwiaWF0IjoxNzY2OTA1NTkyLCJleHAiOjE3NjY5MDY0OTJ9.cmWitBvZy5XSHp4TW8ieO6k5tIHIbVrTwqsfEkDVJ3M",
-
-`    `"refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxNWZiOGYyMi1hN2M0LTQ5MjItOWJmYy0wYjg4ZTBlZTJkMDgiLCJlbWFpbCI6InJldmlld2VyQHRlc3QuY29tIiwiaWF0IjoxNzY2OTA1NTkyLCJleHAiOjE3Njc1MTAzOTJ9.MxPQy-l6Ffo4J8Dyw92e1fH1TsTOHaTy\_cIvnZezz90",
-
-`    `"expiresIn": "15m",
-
-`    `"refreshExpiresIn": "7d"
-
-}
-## **3. API Reviewer xem bài được phân công**
-**a. Chèn dữ liệu vô bảng assignments**
-
-\- Dùng pgadmin hoặc Dbeaver để kết nối tới db\_review
-
-\- Lưu ý khi chèn dữ liệu vào cột reviewerId:
-
-\+ Giá trị của cột này là id của reviewer lúc đăng nhập ở trên:
-
-"id": "15fb8f22-a7c4-4922-9bfc-0b88e0ee2d08",
-
-\+ Copy 15fb8f22-a7c4-4922-9bfc-0b88e0ee2d08 rồi chèn vô câu lệnh SQL
-
-**INSERT** **INTO** assignments (
-
-`  `"submissionId",
-
-`  `"reviewerId",
-
-`  `"conferenceId",
-
-`  `"assignedBy",
-
-`  `"deadline",
-
-`  `"status"
-
-) **VALUES**
-
-('sub-001', '15fb8f22-a7c4-4922-9bfc-0b88e0ee2d08', 'conf-001', 'chair-001', '2026-01-01 23:59:59', 'pending'),
-
-('sub-002', '15fb8f22-a7c4-4922-9bfc-0b88e0ee2d08', 'conf-001', 'chair-001', '2026-01-10 23:59:59', 'pending'),
-
-('sub-003', 'another-reviewer-id', 'conf-001', 'chair-001', '2026-01-05 23:59:59', 'pending');
-
-**b. Test API** 
-
-\- Mở postman:
-
-\+ Chọn: GET
-
-\+ Nhập: <http://localhost:3004/api/reviewer/assignments>
-
-\+ Body: không có
-
-\+ Header:
-
-- + Key: Authorization
-- + Value: Bearer + <mã access\_token lúc đăng nhập> (Nhớ là Bearer rồi nhấn space, xong mới nhập mã mã access\_token)
-
-\+ Nhấn send và xem kết quả:
-
-[
-
-`    `{
-
-`        `"assignmentId": 1,
-
-`        `"submissionId": "sub-001",
-
-`        `"conferenceId": "conf-001",
-
-`        `"title": "Không tải được thông tin bài báo",
-
-`        `"abstract": "",
-
-`        `"status": "pending",
-
-`        `"deadline": "2026-01-01T23:59:59.000Z",
-
-`        `"canAct": true
-
-`    `},
-
-`    `{
-
-`        `"assignmentId": 2,
-
-`        `"submissionId": "sub-002",
-
-`        `"conferenceId": "conf-001",
-
-`        `"title": "Không tải được thông tin bài báo",
-
-`        `"abstract": "",
-
-`        `"status": "pending",
-
-`        `"deadline": "2026-01-10T23:59:59.000Z",
-
-`        `"canAct": true
-
-`    `}
-
-]
-## **4. API Reviewer chấp nhận hoặc từ chối nhiệm vụ**
-\- Mở postman:
-
-\+ Chọn: POST
-
-\+ Nhập:
-
-- Chấp nhận: http://localhost:3004/api /reviewer/assignments/:id/accept
-- Từ chối: http://localhost:3004/api /reviewer/assignments/:id/reject
-- Ví dụ: <http://localhost:3004/api/reviewer/assignments/1/accept>
-
-\+ Body: không có
-
-\+ Header:
-
-- + Key: Authorization
-- + Value: Bearer + <mã access\_token lúc đăng nhập> (Nhớ là Bearer rồi nhấn space, xong mới nhập mã mã access\_token)
-
-\+ Nhấn send và xem kết quả:
-
-{
-
-`    `"id": 1,
-
-`    `"submissionId": "sub-001",
-
-`    `"reviewerId": "15fb8f22-a7c4-4922-9bfc-0b88e0ee2d08",
-
-`    `"conferenceId": "conf-001",
-
-`    `"assignedBy": "chair-001",
-
-`    `"deadline": "2026-01-01T23:59:59.000Z",
-
-`    `"status": "accepted",
-
-`    `"createdAt": "2025-12-28T14:07:57.298Z"
-
-}
-## **5. API Reviewer xem bài được phân công và tải về**
-\- Mở postman:
-
-\+ Chọn: GET
-
-\+ Nhập: http://localhost:3004/api/reviewer/assignments/:id/paper
-
-- Ví dụ: <http://localhost:3004/api/reviewer/assignments/1/paper>
-
-\+ Body: không có
-
-\+ Header:
-
-- Key: Authorization
-- Value: Bearer + <mã access\_token lúc đăng nhập> (Nhớ là Bearer rồi nhấn space, xong mới nhập mã mã access\_token)
-
-\+ Nhấn send và xem kết quả:
-
-{
-
-`    `"message": "Không thể lấy file từ submission-service",
-
-`    `"error": "Not Found",
-
-`    `"statusCode": 404
-
-}
-
-Lỗi 404 từ submission-service → bình thường vì submission-service chưa có endpoint /submissions/:id/file → tạm thời chấp nhận, sau này fix khi submission-service sẵn sàng.
-## **6. API Reviewer đánh giá bài báo**
-\- Mở postman:
-
-\+ Chọn: POST
-
-\+ Nhập: http://localhost:3004/api/reviewer/assignments/:id/review
-
-- <a name="_hlk217821489"></a>Ví dụ: <http://localhost:3004/api/reviewer/assignments/1/review>
-
-\+ Body:
-
-<a name="_hlk217821582"></a>{
-
-`  `"originality": 8,
-
-`  `"technicalQuality": 7,
-
-`  `"clarity": 9,
-
-`  `"relevance": 6,
-
-`  `"overall": 15,
-
-`  `"publicComment": "Bài báo hay, cần cải thiện phần kết luận",
-
-`  `"privateComment": "Nội bộ: Có thể accept"
-
-}
-
-\+ Header:
-
-- Key: Authorization
-- Value: Bearer + <mã access\_token lúc đăng nhập> (Nhớ là Bearer rồi nhấn space, xong mới nhập mã mã access\_token)
-
-\+ Nhấn send và xem kết quả:
-
-{
-
-`    `"id": "6a3fa0b5-3a3e-47c8-9a7f-5800f22e7abf",
-
-`    `"assignmentId": 1,
-
-`    `"reviewerId": "15fb8f22-a7c4-4922-9bfc-0b88e0ee2d08",
-
-`    `"originality": 8,
-
-`    `"technicalQuality": 7,
-
-`    `"clarity": 9,
-
-`    `"relevance": 6,
-
-`    `"overall": 15,
-
-`    `"publicComment": "Bài báo hay, cần cải thiện phần kết luận",
-
-`    `"privateComment": "Nội bộ: Có thể accept",
-
-`    `"isFinal": true,
-
-`    `"createdAt": "2025-12-28T07:12:50.243Z",
-
-`    `"updatedAt": "2025-12-28T07:12:50.243Z"
-
-}
-## <a name="_hlk217821598"></a>**7. API Reviewer xem bài báo đã đánh giá** 
-\- Mở postman:
-
-\+ Chọn: GET
-
-\+ Nhập: http://localhost:3004/api/reviewer/assignments/:id/review
-
-- Ví dụ: <http://localhost:3004/api/reviewer/assignments/1/review>
-
-\+ Body: Không có
-
-\+ Header:
-
-- Key: Authorization
-- Value: Bearer + <mã access\_token lúc đăng nhập> (Nhớ là Bearer rồi nhấn space, xong mới nhập mã mã access\_token)
-
-\+ Nhấn send và xem kết quả:
-
-{
-
-`    `"id": "6a3fa0b5-3a3e-47c8-9a7f-5800f22e7abf",
-
-`    `"assignmentId": 1,
-
-`    `"reviewerId": "15fb8f22-a7c4-4922-9bfc-0b88e0ee2d08",
-
-`    `"originality": 8,
-
-`    `"technicalQuality": 7,
-
-`    `"clarity": 9,
-
-`    `"relevance": 6,
-
-`    `"overall": 15,
-
-`    `"publicComment": "Bài báo hay, cần cải thiện phần kết luận",
-
-`    `"privateComment": "Nội bộ: Có thể accept",
-
-`    `"isFinal": true,
-
-`    `"createdAt": "2025-12-28T07:12:50.243Z",
-
-`    `"updatedAt": "2025-12-28T07:12:50.243Z",
-
-`    `"histories": []
-
-}
-
-## **8. API Reviewer chỉnh sửa đánh giá** 
-\- Mở postman:
-
-\+ Chọn: PATCH
-
-\+ Nhập: http://localhost:3004/api/reviewer/assignments/:id/review
-
-- Ví dụ: <http://localhost:3004/api/reviewer/assignments/1/review>
-
-\+ Body:
-
-{
-
-`  `"overall": 18,
-
-`  `"publicComment": "Cập nhật: Bài báo xuất sắc, khuyến nghị accept",
-
-`  `"privateComment": "Nội bộ: Strongly accept"
-
-}
-
-\+ Header:
-
-- Key: Authorization
-- Value: Bearer + <mã access\_token lúc đăng nhập> (Nhớ là Bearer rồi nhấn space, xong mới nhập mã mã access\_token)
-
-\+ Nhấn send và xem kết quả:
-
-{
-
-`    `"id": "6a3fa0b5-3a3e-47c8-9a7f-5800f22e7abf",
-
-`    `"assignmentId": 1,
-
-`    `"reviewerId": "15fb8f22-a7c4-4922-9bfc-0b88e0ee2d08",
-
-`    `"originality": 8,
-
-`    `"technicalQuality": 7,
-
-`    `"clarity": 9,
-
-`    `"relevance": 6,
-
-`    `"overall": 18,
-
-`    `"publicComment": "Cập nhật: Bài báo xuất sắc, khuyến nghị accept",
-
-`    `"privateComment": "Nội bộ: Strongly accept",
-
-`    `"isFinal": true,
-
-`    `"createdAt": "2025-12-28T07:12:50.243Z",
-
-`    `"updatedAt": "2025-12-28T07:20:44.465Z"
-
-}
-## **9. API Reviewer thảo luận nội bộ**
-\- Mở postman:
-
-\+ Chọn: POST
-
-\+ Nhập: http://localhost:3004/api/reviewer/ discussion/:submissionId
-
-- Ví dụ: <http://localhost:3004/api/reviewer/discussion/sub-001>
-
-\+ Body:
-
-{
-
-`  `"content": "Test discussion thành công!"
-
-}
-
-\+ Header:
-
-- Key: Authorization
-- Value: Bearer + <mã access\_token lúc đăng nhập> (Nhớ là Bearer rồi nhấn space, xong mới nhập mã mã access\_token)
-
-\+ Nhấn send và xem kết quả:
-
-{
-
-`    `"id": "2d615d59-0a44-417d-857d-2ab3d01708e4",
-
-`    `"submissionId": "sub-001",
-
-`    `"senderId": "15fb8f22-a7c4-4922-9bfc-0b88e0ee2d08",
-
-`    `"content": "Test discussion thành công!",
-
-`    `"createdAt": "2025-12-28T07:36:02.002Z"
-
-}
-## **10. API Reviewer xem toàn bộ thảo luận**
-\- Mở postman:
-
-\+ Chọn: GET
-
-\+ Nhập: http://localhost:3004/api/reviewer/ discussion/:submissionId
-
-- Ví dụ: <http://localhost:3004/api/reviewer/discussion/sub-001>
-
-\+ Body: Không có
-
-\+ Header:
-
-- Key: Authorization
-- Value: Bearer + <mã access\_token lúc đăng nhập> (Nhớ là Bearer rồi nhấn space, xong mới nhập mã mã access\_token)
-
-\+ Nhấn send và xem kết quả:
-
-[
-
-`    `{
-
-`        `"id": "2d615d59-0a44-417d-857d-2ab3d01708e4",
-
-`        `"submissionId": "sub-001",
-
-`        `"senderId": "15fb8f22-a7c4-4922-9bfc-0b88e0ee2d08",
-
-`        `"content": "Test discussion thành công!",
-
-`        `"createdAt": "2025-12-28T07:36:02.002Z"
-
-`    `}
-
-]
-# **TEST CÁC API NGHIỆP VỤ CỦA CHAIR (CHỦ TỊCH HỘI NGHỊ) TRONG REVIEW-SERVICE BẰNG POSTMAN**
-## **1. API Chair register**
-\- Mở postman:
-
-\+ Chọn: POST
-
-\+ Body: Không có
-
-\+ Header: Không có
-
-\+ Nhập <http://localhost:3001/api/auth/register>
-
-\+ Body:
-
-{
-
-`  `"email": "chair@test.com",
+`  `"email": "reviewer@example.com",
 
 `  `"password": "password123",
 
-`  `"fullName": "Chair Test",
+`  `"fullName": "Nguyễn Văn Reviewer",
 
-`  `"role": "chair"
-
-}
-
-\+ Nhấn send và xem kết quả:
-
-{
-
-`    `"user": {
-
-`        `"id": "5766f09d-13d0-4236-bd68-9569392c93cc",
-
-`        `"email": "chair@test.com",
-
-`        `"fullName": "Chair Test",
-
-`        `"role": "chair",
-
-`        `"isActive": true,
-
-`        `"createdAt": "2025-12-28T08:05:34.631Z",
-
-`        `"updatedAt": "2025-12-28T08:05:34.631Z"
-
-`    `},
-
-`    `"accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1NzY2ZjA5ZC0xM2QwLTQyMzYtYmQ2OC05NTY5MzkyYzkzY2MiLCJlbWFpbCI6ImNoYWlyQHRlc3QuY29tIiwicm9sZSI6ImNoYWlyIiwiaWF0IjoxNzY2OTA5MTM0LCJleHAiOjE3NjY5MTAwMzR9.zo4fg1BMj5FLW0lo0FfENwZyeBhk46XzEZX4yQq1ztY",
-
-`    `"refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1NzY2ZjA5ZC0xM2QwLTQyMzYtYmQ2OC05NTY5MzkyYzkzY2MiLCJlbWFpbCI6ImNoYWlyQHRlc3QuY29tIiwiaWF0IjoxNzY2OTA5MTM0LCJleHAiOjE3Njc1MTM5MzR9.Xxp-HT2wIOmPy4LZDNLlQ0pb4XE1NSyQDp5Pipr--so",
-
-`    `"expiresIn": "15m",
-
-`    `"refreshExpiresIn": "7d"
+`  `"role": "REVIEWER"
 
 }
 
-## **2. API Chair login**
-\- Mở postman:
 
-\+ Chọn: POST
-
-\+ Body: Không có
-
-\+ Header: Không có
-
-\+ Nhập <http://localhost:3001/api/auth/register>
-
-\+ Body:
+\# Tạo chair
 
 {
 
-`  `"email": "chair@test.com",
+`  `"email": "chair@example.com",
 
-`  `"password": "password123"
+`  `"password": "password123",
+
+`  `"fullName": "Nguyễn Văn Chair",
+
+`  `"role": "CHAIR"
+
+}
+## **12. Xác minh tài khoản REVIEWER và CHAIR**
+\- Copy câu lệnh này và chạy trong terminal vs code, nơi chưa thư mục gốc (Ví dụ: d:\uth-confms)
+
+docker exec -i uth-database psql -U admin -d db\_identity -c "UPDATE users SET is\_verified = true WHERE email IN ('reviewer@example.com','chair@example.com');"
+
+\- Kết quả: UPDATE 2
+## **13. Đăng nhập tài khoản REVIEWER và CHAIR**
+\- POST http://localhost:3001/api/auth/login
+
+\- Body:
+
+{
+
+`  `"email": "reviewer@example.com",
+
+`  `"password": " password123"
 
 }
 
-\+ Nhấn send và xem kết quả:
+\+ Chair tương tự như vậy
+
+\- Đăng nhập thành công thì copy accessToken của Reviewer 
+## **14. Truy cập Swagger UI Review service**
+\- Review: [http://localhost:3004/api/docs](vscode-file://vscode-app/c:/Program%20Files/Microsoft%20VS%20Code/resources/app/out/vs/code/electron-browser/workbench/workbench.html)
+
+\- Paste accessToken của reviewer vừa đăng nhập thành công bên identity-service vào Authorize của review-service
+
+## **15. Kiểm tra vai trò của REVIEWER và CHAIR trong review-service**
+\- GET http://localhost:3004/api/profile
+
+\- Nhấn try it out -> Excute và cho kết quả:
 
 {
 
-`    `"user": {
+`  `"message": "Bạn đã đăng nhập thành công vào Review Service!",
 
-`        `"id": "5766f09d-13d0-4236-bd68-9569392c93cc",
+`  `"user": {
 
-`        `"email": "chair@test.com",
+`    `"sub": 2,
 
-`        `"fullName": "Chair Test",
+`    `"email": "r1@example.com",
 
-`        `"role": "chair",
+`    `"fullName": "r1",
 
-`        `"isActive": true,
+`    `"roles": [
 
-`        `"createdAt": "2025-12-28T08:05:34.631Z",
-
-`        `"updatedAt": "2025-12-28T08:05:34.631Z"
-
-`    `},
-
-`    `"accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1NzY2ZjA5ZC0xM2QwLTQyMzYtYmQ2OC05NTY5MzkyYzkzY2MiLCJlbWFpbCI6ImNoYWlyQHRlc3QuY29tIiwicm9sZSI6ImNoYWlyIiwiaWF0IjoxNzY2OTA5Mjk4LCJleHAiOjE3NjY5MTAxOTh9.L41g\_sSKW9oekciG7aaz3rL4U5YppRX6bFzCJfgghQQ",
-
-`    `"refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1NzY2ZjA5ZC0xM2QwLTQyMzYtYmQ2OC05NTY5MzkyYzkzY2MiLCJlbWFpbCI6ImNoYWlyQHRlc3QuY29tIiwiaWF0IjoxNzY2OTA5Mjk4LCJleHAiOjE3Njc1MTQwOTh9.1z7cxpEjLGYR60fNmWZTcgVuHsJhorxM\_ndr3mF6kfI",
-
-`    `"expiresIn": "15m",
-
-`    `"refreshExpiresIn": "7d"
-
-}
-## **3. API Chair xem tổng hợp phản biện**
-\- Mở postman:
-
-\+ Chọn: GET
-
-\+ Nhập: http://localhost:3004/api/chair/submissions/:submissionId/reviews
-
-- Ví dụ: <http://localhost:3004/api/chair/submissions/sub-001/reviews> 
-
-\+ Body: Không có
-
-\+ Header:
-
-- Key: Authorization
-- Value: Bearer + <mã access\_token lúc đăng nhập> (Nhớ là Bearer rồi nhấn space, xong mới nhập mã mã access\_token)
-
-\+ Nhấn send và xem kết quả:
-
-{
-
-`    `"submissionId": "sub-001",
-
-`    `"totalReviews": 1,
-
-`    `"averageScores": {
-
-`        `"originality": 8,
-
-`        `"technicalQuality": 7,
-
-`        `"clarity": 9,
-
-`        `"relevance": 6,
-
-`        `"overall": 18
-
-`    `},
-
-`    `"variance": null,
-
-`    `"reviews": [
-
-`        `{
-
-`            `"reviewerId": "15fb8f22-a7c4-4922-9bfc-0b88e0ee2d08",
-
-`            `"scores": {
-
-`                `"originality": 8,
-
-`                `"technicalQuality": 7,
-
-`                `"clarity": 9,
-
-`                `"relevance": 6,
-
-`                `"overall": 18
-
-`            `},
-
-`            `"publicComment": "Cập nhật: Bài báo xuất sắc, khuyến nghị accept",
-
-`            `"privateComment": "Nội bộ: Strongly accept",
-
-`            `"submittedAt": "2025-12-28T07:12:50.243Z"
-
-`        `}
+`      `"REVIEWER"
 
 `    `],
 
-`    `"currentDecision": "pending",
+`    `"iat": 1767191910,
 
-`    `"chairComment": null
+`    `"exp": 1767193710
 
-}
-## **4. API Chair ra quyết định cho bài báo**
-\- Mở postman:
-
-\+ Chọn: POST
-
-\+ Nhập: http://localhost:3004/api/chair/submissions/:submissionId/decision
-
-- Ví dụ: <http://localhost:3004/api/chair/submissions/sub-001/decision>
-
-\+ Body: 
-
-{
-
-`  `"decision": "accept",
-
-`  `"chairComment": "Bài báo chất lượng cao, accept với minor revision"
+`  `}
 
 }
+# **APIs REVIEWER**
+\- Đăng nhập tài khoản reviewer ở identity-service và cpoy mã accessToke sau đó paste vào authorize ở review-service và sau đó test các api nghiệp vụ của reviewer
 
-\+ Header:
+\- Mẫu dữ liệu chèn vào bảng assginments:
 
-- Key: Authorization
-- Value: Bearer + <mã access\_token lúc đăng nhập> (Nhớ là Bearer rồi nhấn space, xong mới nhập mã mã access\_token)
+**INSERT** **INTO** assignments (
 
-\+ Nhấn send và xem kết quả:
+`    `"submissionId", 
 
-{
+`    `"reviewerId", 
 
-`    `"id": "fec8f8d6-bccb-4aad-ac53-7155255285bb",
+`    `"conferenceId", 
 
-`    `"submissionId": "sub-001",
+`    `"assignedBy", 
 
-`    `"conferenceId": "conf-001",
+`    `"deadline", 
 
-`    `"decidedBy": "5766f09d-13d0-4236-bd68-9569392c93cc",
+`    `"acceptDeadline", 
 
-`    `"decision": "accept",
+`    `"reviewDeadline", 
 
-`    `"chairComment": "Bài báo chất lượng cao, accept với minor revision",
+`    `"status"
 
-`    `"decidedAt": "2025-12-28T08:11:55.414Z"
+)
 
-}
-## **5. API Chair gửi hàng loạt mail thông báo về kết quả của các bài báo**
-\- Chỉ mới giả lập
+**VALUES** 
 
-\- Mở postman:
+('sub-01', 2, 'conf-2025', 'chair1', '2026-01-15 23:59:00+07', '2026-01-05 23:59:00+07', '2026-01-15 23:59:00+07', 'pending'),
 
-\+ Chọn: POST
+('sub-02', 2, 'conf-2025', 'chair1', '2026-01-15 23:59:00+07', '2026-01-05 23:59:00+07', '2026-01-15 23:59:00+07', 'pending'),
 
-\+ Nhập: http://localhost:3004/api/chair/notifications/bulk
+('sub-02', 3, 'conf-2025', 'chair1', '2026-01-15 23:59:00+07', '2026-01-05 23:59:00+07', '2026-01-15 23:59:00+07', 'pending'),
 
-- Ví dụ: <http://localhost:3004/api/chair/notifications/bulk>
+('sub-03', 4, 'conf-2025', 'chair1', '2026-01-15 23:59:00+07', '2026-01-05 23:59:00+07', '2026-01-15 23:59:00+07', 'pending'),
 
-\+ Body: 
+('sub-04', 4, 'conf-2025', 'chair1', '2026-01-15 23:59:00+07', '2026-01-05 23:59:00+07', '2026-01-15 23:59:00+07', 'pending'),
 
-{
+('sub-05', 5, 'conf-2025', 'chair1', '2026-01-15 23:59:00+07', '2026-01-05 23:59:00+07', '2026-01-15 23:59:00+07', 'pending'),
 
-`  `"submissionIds": ["sub-001", "sub-002"]
+('sub-06', 6, 'conf-2025', 'chair1', '2026-01-15 23:59:00+07', '2026-01-05 23:59:00+07', '2026-01-15 23:59:00+07', 'pending');
+## **1. REVIEWER NHẬN BÀI ĐƯỢC PHÂN CÔNG**
+\- GET <http://localhost:3004/api/reviewer/assignments>
 
-}
-
-\+ Header:
-
-- Key: Authorization
-- Value: Bearer + <mã access\_token lúc đăng nhập> (Nhớ là Bearer rồi nhấn space, xong mới nhập mã mã access\_token)
-
-\+ Nhấn send và xem kết quả:
-
-{
-
-`    `"message": "Gửi thông báo thành công (mock)",
-
-`    `"sentTo": [
-
-`        `"sub-001",
-
-`        `"sub-002"
-
-`    `],
-
-`    `"timestamp": "2025-12-28T08:13:42.545Z",
-
-`    `"contentPreview": "Kết quả phản biện đã được gửi ẩn danh đến tác giả"
-
-}
-
-
-## **6. API Chair tham gia thảo luận nội bộ**
-\- Mở postman:
-
-\+ Chọn: POST
-
-\+ Nhập: http://localhost:3004/api/chair/discussion/:submissionId
-
-- Ví dụ: <http://localhost:3004/api/chair/discussion/sub-001>
-
-\+ Body: 
-
-{
-
-`  `"content": "Tôi đồng ý với reviewer, cần thêm dữ liệu"
-
-}
-
-\+ Header:
-
-- Key: Authorization
-- Value: Bearer + <mã access\_token lúc đăng nhập> (Nhớ là Bearer rồi nhấn space, xong mới nhập mã mã access\_token)
-
-\+ Nhấn send và xem kết quả:
-
-{
-
-`    `"id": "f7f8dc71-ba48-4fbc-9362-20baafa23485",
-
-`    `"submissionId": "sub-001",
-
-`    `"senderId": "5766f09d-13d0-4236-bd68-9569392c93cc",
-
-`    `"content": "Tôi đồng ý với reviewer, cần thêm dữ liệu",
-
-`    `"createdAt": "2025-12-28T08:15:42.912Z"
-
-}
-## **7. API Chair xem thảo luận nội bộ**
-\- Mở postman:
-
-\+ Chọn: GET
-
-\+ Nhập: http://localhost:3004/api/chair/discussion/:submissionId
-
-- Ví dụ: <http://localhost:3004/api/chair/discussion/sub-001>
-
-\+ Body: Không có
-
-\+ Header:
-
-- Key: Authorization
-- Value: Bearer + <mã access\_token lúc đăng nhập> (Nhớ là Bearer rồi nhấn space, xong mới nhập mã mã access\_token)
-
-\+ Nhấn send và xem kết quả:
+\- Kết quả:
 
 [
 
+`  `{
+
+`    `"id": 1,
+
+`    `"submissionId": "sub-01",
+
+`    `"reviewerId": 2,
+
+`    `"conferenceId": "conf-2025",
+
+`    `"assignedBy": "chair1",
+
+`    `"deadline": "2026-01-15T16:59:00.000Z",
+
+`    `"acceptDeadline": "2026-01-05T16:59:00.000Z",
+
+`    `"reviewDeadline": "2026-01-15T16:59:00.000Z",
+
+`    `"status": "pending",
+
+`    `"assignedAt": "2025-12-31T14:47:42.788Z"
+
+`  `},
+
+`  `{
+
+`    `"id": 2,
+
+`    `"submissionId": "sub-02",
+
+`    `"reviewerId": 2,
+
+`    `"conferenceId": "conf-2025",
+
+`    `"assignedBy": "chair1",
+
+`    `"deadline": "2026-01-15T16:59:00.000Z",
+
+`    `"acceptDeadline": "2026-01-05T16:59:00.000Z",
+
+`    `"reviewDeadline": "2026-01-15T16:59:00.000Z",
+
+`    `"status": "pending",
+
+`    `"assignedAt": "2025-12-31T14:47:42.788Z"
+
+`  `}
+
+]
+## **2. REVIWER CHẤP NHẬN HOẶC TỪ CHỐI NHIỆM VỤ**
+\- POST http://localhost:3004/api/reviewer/assignments/{id}/accept
+
+\- POST http://localhost:3004/api/reviewer/assignments/{id}/reject
+
+\- Giả sử: http://localhost:3004/api/reviewer/assignments/2/accept
+
+\- Kết quả:
+
+{
+
+`  `"id": 2,
+
+`  `"submissionId": "sub-02",
+
+`  `"reviewerId": 2,
+
+`  `"conferenceId": "conf-2025",
+
+`  `"assignedBy": "chair1",
+
+`  `"deadline": "2026-01-15T16:59:00.000Z",
+
+`  `"acceptDeadline": "2026-01-05T16:59:00.000Z",
+
+`  `"reviewDeadline": "2026-01-15T16:59:00.000Z",
+
+`  `"status": "accepted",
+
+`  `"assignedAt": "2025-12-31T14:47:42.788Z"
+
+}
+## **3. REVIEWER XEM VÀ TẢI BÀI MÌNH ĐƯỢC PHÂN CÔNG VỀ**
+\- GET http://localhost:3004/api/reviewer/assignments/{id}/paper
+## **4. REVIEWER ĐÁNH GIÁ BÀI ĐƯỢC PHÂN CÔNG**
+\- POST http://localhost:3004/ /api/reviewer/assignments/{id}/review
+
+\- id: 2
+
+\- Body:
+
+{
+
+`  `"score": 8,
+
+`  `"publicComment": "Bài viết có nội dung chuyên sâu, phương pháp nêu rõ và hợp lý.",
+
+`  `"privateComment": "Cần bổ sung dẫn chứng tại mục Kết quả."
+
+}
+## **5. REVIEWER XEM BÀI MÌNH VỪA ĐÁNH GIÁ**
+\- GET http://localhost:3004/api/reviewer/assignments/{id}/review
+
+{
+
+`  `"id": "a98ef85f-19c3-4828-b2dc-672a4329abe3",
+
+`  `"assignmentId": 2,
+
+`  `"reviewerId": 2,
+
+`  `"score": 8,
+
+`  `"publicComment": "Bài viết có nội dung chuyên sâu, phương pháp nêu rõ và hợp lý.",
+
+`  `"privateComment": "Cần bổ sung dẫn chứng tại mục Kết quả.",
+
+`  `"isFinal": false,
+
+`  `"createdAt": "2025-12-31T14:55:03.473Z",
+
+`  `"updatedAt": "2025-12-31T14:55:03.473Z",
+
+`  `"histories": []
+
+}
+## **6. REVIEWER CHỈNH SỬA ĐÁNH GIÁ**
+\- PATCH http://localhost:3004/api/reviewer/assignments/{id}/review
+
+\- id: 2
+
+\- Body:
+
+{
+
+`  `"score": 9,
+
+`  `"publicComment": "Đã cập nhật: phần kết luận rõ ràng hơn, đề xuất chấp nhận.",
+
+`  `"privateComment": "Sửa chi tiết ở trang 5."
+
+}
+## **7. REVIEWER NỘP KẾT QUẢ BÀI MÌNH VỪA ĐÁNH GIÁ**
+\- POST [http://localhost:3004/api/reviewer/assignments/{id}/submit-final](http://localhost:3004/api/reviewer/assignments/%7bid%7d/submit-final)
+
+\- id: 2
+
+\- Kết quả:
+
+{
+
+`  `"success": true,
+
+`  `"review": {
+
+`    `"id": "a98ef85f-19c3-4828-b2dc-672a4329abe3",
+
+`    `"assignmentId": 2,
+
+`    `"reviewerId": 2,
+
+`    `"score": 9,
+
+`    `"publicComment": "Đã cập nhật: phần kết luận rõ ràng hơn, đề xuất chấp nhận.",
+
+`    `"privateComment": "Sửa chi tiết ở trang 5.",
+
+`    `"isFinal": true,
+
+`    `"createdAt": "2025-12-31T14:55:03.473Z",
+
+`    `"updatedAt": "2025-12-31T14:59:29.582Z"
+
+`  `},
+
+`  `"assignment": {
+
+`    `"id": 2,
+
+`    `"submissionId": "sub-02",
+
+`    `"reviewerId": 2,
+
+`    `"conferenceId": "conf-2025",
+
+`    `"assignedBy": "chair1",
+
+`    `"deadline": "2026-01-15T16:59:00.000Z",
+
+`    `"acceptDeadline": "2026-01-05T16:59:00.000Z",
+
+`    `"reviewDeadline": "2026-01-15T16:59:00.000Z",
+
+`    `"status": "completed",
+
+`    `"assignedAt": "2025-12-31T14:47:42.788Z"
+
+`  `}
+
+}
+## **8. REVIEWER THẢO LUẬN NỘI BỘ VỀ BÀI MÀ MÌNH ĐÁNH GIÁ**
+\- Những reviewer nào được phân công đánh giá cùng một bài, và họ cùng chấp nhận đánh giá bài đó thì sẽ thảo luận nội bộ với nhau về bài này được
+
+\- POST http://localhost:3004/api/reviewer/discussion/{submissionId}
+
+\- submissionId: 2
+
+\- Body:
+
+{
+
+"content": "Tôi thấy phương pháp ở mục 3 cần làm rõ thêm về biến kiểm soát."
+
+}
+
+\- Kết quả:
+
+{
+
+`  `"id": "6d4bc3e1-d510-44de-bda3-95b683ae189e",
+
+`  `"submissionId": "sub-02",
+
+`  `"senderId": 2,
+
+`  `"content": "Tôi thấy phương pháp ở mục 3 cần làm rõ thêm về biến kiểm soát.",
+
+`  `"createdAt": "2025-12-31T15:02:26.038Z"
+
+}
+## **9. REVIEWER XEM THẢO LUẬN NỘI BỘ VỀ BÀI MÀ MÌNH ĐÁNH GIÁ**
+\- GET http://localhost:3004/api/reviewer/discussion/{submissionId}
+# **APIs CHAIR**
+## **1. CHAIR XEM TỔNG HỢP ĐÁNH GIÁ CỦA CÁC REVIEWER**
+\- GET [http://localhost:3004/api/chair/submissions/{submissionId}/summary](http://localhost:3004/api/chair/submissions/%7bsubmissionId%7d/summary)
+
+{
+
+`  `"submissionId": "sub-02",
+
+`  `"assignments": [
+
 `    `{
 
-`        `"id": "2d615d59-0a44-417d-857d-2ab3d01708e4",
+`      `"id": 3,
 
-`        `"submissionId": "sub-001",
+`      `"submissionId": "sub-02",
 
-`        `"senderId": "15fb8f22-a7c4-4922-9bfc-0b88e0ee2d08",
+`      `"reviewerId": 3,
 
-`        `"content": "Test discussion thành công!",
+`      `"conferenceId": "conf-2025",
 
-`        `"createdAt": "2025-12-28T07:36:02.002Z"
+`      `"assignedBy": "chair1",
+
+`      `"deadline": "2026-01-15T16:59:00.000Z",
+
+`      `"acceptDeadline": "2026-01-05T16:59:00.000Z",
+
+`      `"reviewDeadline": "2026-01-15T16:59:00.000Z",
+
+`      `"status": "pending",
+
+`      `"assignedAt": "2025-12-31T14:47:42.788Z"
 
 `    `},
 
 `    `{
 
-`        `"id": "f7f8dc71-ba48-4fbc-9362-20baafa23485",
+`      `"id": 2,
 
-`        `"submissionId": "sub-001",
+`      `"submissionId": "sub-02",
 
-`        `"senderId": "5766f09d-13d0-4236-bd68-9569392c93cc",
+`      `"reviewerId": 2,
 
-`        `"content": "Tôi đồng ý với reviewer, cần thêm dữ liệu",
+`      `"conferenceId": "conf-2025",
 
-`        `"createdAt": "2025-12-28T08:15:42.912Z"
+`      `"assignedBy": "chair1",
+
+`      `"deadline": "2026-01-15T16:59:00.000Z",
+
+`      `"acceptDeadline": "2026-01-05T16:59:00.000Z",
+
+`      `"reviewDeadline": "2026-01-15T16:59:00.000Z",
+
+`      `"status": "completed",
+
+`      `"assignedAt": "2025-12-31T14:47:42.788Z"
 
 `    `}
 
-]
+`  `],
+
+`  `"reviews": [
+
+`    `{
+
+`      `"id": "a98ef85f-19c3-4828-b2dc-672a4329abe3",
+
+`      `"assignmentId": 2,
+
+`      `"reviewerId": 2,
+
+`      `"score": 9,
+
+`      `"publicComment": "Đã cập nhật: phần kết luận rõ ràng hơn, đề xuất chấp nhận.",
+
+`      `"privateComment": "Sửa chi tiết ở trang 5.",
+
+`      `"isFinal": true,
+
+`      `"createdAt": "2025-12-31T14:55:03.473Z",
+
+`      `"updatedAt": "2025-12-31T14:59:29.582Z"
+
+`    `}
+
+`  `],
+
+`  `"discussions": [
+
+`    `{
+
+`      `"id": "6d4bc3e1-d510-44de-bda3-95b683ae189e",
+
+`      `"submissionId": "sub-02",
+
+`      `"senderId": 2,
+
+`      `"content": "Tôi thấy phương pháp ở mục 3 cần làm rõ thêm về biến kiểm soát.",
+
+`      `"createdAt": "2025-12-31T15:02:26.038Z"
+
+`    `}
+
+`  `],
+
+`  `"decision": null
+
+}
+## **2. CHAIR RA QUYẾT ĐỊNH CHẤP NHẬN HOẶC TỪ CHỐI BÀI ĐÁNH GIÁ**
+\- POST [http://localhost:3004/api/chair/submissions/{submissionId}/decision](http://localhost:3004/api/chair/submissions/%7bsubmissionId%7d/decision)
+
+\- submissionId: sub-02
+
+\- Body:
+
+{
+
+`  `"decision": "accepted",
+
+`  `"note": "Bài viết đạt chất lượng chuyên môn rất tốt sau khi đã sửa đổi theo góp ý của Reviewer."
+
+}
+
+\- Kết quả:
+
+{
+
+`  `"id": "3df3d331-1dff-4f88-a318-b9e8dd91953c",
+
+`  `"submissionId": "sub-02",
+
+`  `"chairId": 7,
+
+`  `"decision": "accepted",
+
+`  `"note": "Bài viết đạt chất lượng chuyên môn rất tốt sau khi đã sửa đổi theo góp ý của Reviewer.",
+
+`  `"createdAt": "2025-12-31T15:11:28.903Z",
+
+`  `"updatedAt": "2025-12-31T15:11:28.903Z"
+
+}
+## **3. CHAIR XEM NHỮNG BÀI MÌNH ĐÃ QUYẾT ĐỊNH** 
+GET http://localhost:3004/api/chair/submissions/{submissionId}/decision
+## **4. CHAIR CHỈNH SỬA QUYẾT ĐỊNH**
+PATCH http://localhost:3004/api/chair/submissions/{submissionId}/decision
+## **5. CHAIR XÓA QUYẾT ĐỊNH**
+DELETE http://localhost:3004/api/chair/submissions/{submissionId}/decision
+
+
+
